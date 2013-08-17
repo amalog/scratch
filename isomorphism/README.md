@@ -4,10 +4,10 @@ A given program has only a single serialization as a byte stream.  A valid byte 
 
 Syntax errors:
 
-    * presence of tab characters
-    * presence of trailing whitespace
-    * missing a version number
-    * using a non-UTF8 encoding
+  * presence of tab characters
+  * presence of trailing whitespace
+  * missing a version number
+  * using a non-UTF8 encoding
 
 
 # Examples
