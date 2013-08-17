@@ -1,6 +1,6 @@
 # Spec
 
-A raw text token begins with one or more grave accent characters (` `U+0060`).  It concludes with the same number of the same character.  All unicode characters between these markers are part of the text content.  No escaping is performed.
+A raw text token begins with one or more grave accent characters (`U+0060`).  It concludes with the same number of the same character.  All unicode characters between these markers are part of the text content.  No escaping is performed.
 
 Double quoted strings are a syntax error. They are reserved for future use.
 
