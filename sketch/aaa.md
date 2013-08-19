@@ -62,5 +62,4 @@ Prolog clause indexing is an optimization to avoid executing clauses that we kno
   
 should be indexed exactly like
 
-
-    foo([]).
+    foo(hi).
