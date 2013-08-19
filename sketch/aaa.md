@@ -64,22 +64,3 @@ should be indexed exactly like
 
 
     foo([]).
-
-I wonder if I can improve on predicate calls with long argument lists.  For example in Prolog one might write
-
-    some_goal(
-        alpha,
-        beta,
-        gamma(1,2,3),
-        delta(more,stuff,goes,here)
-    ),
-    etc.
-
-There’s a lot of extra visual clutter redundantly conveying the same information as the indentation.  There’s also the perpetual problem of commas on the final argument.  Adding an extra argument requires one to modify the preceding line which makes diffs larger than necessary.  What if I could write
-
-    some_goal
-	    alpha
-	    beta
-	    gamma 1 2 3
-	    delta more stuff goes here
-	    etc
