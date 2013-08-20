@@ -89,3 +89,5 @@ Building on the `perform_import/3` idea, one might define a module like
 The `exporter` module creates a `perform_import/3` predicate in the database representing module `something`.  That predicate queries `export/1` to determine which predicates should be exported to those modules who import `something`.
 
 Under this architecture, modules can perform all kinds of useful work on behalf of their importers.  It also leaves it up to the exporting module to perform the exporting.  The exporting module certainly knows more about exporting its predicates that any generalized module system could.
+
+By treating modules as completely isolated data containers (just database values), we should be able to realize some efficiencies for loading code in parallel.  For example, we could load all import modules in parallel. After they've all loaded, we can call `perform_import` serially to handle the actual imports.
