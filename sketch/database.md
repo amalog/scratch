@@ -78,3 +78,5 @@ Databases are somewhat-sorta-kinda like associative arrays in other languages.  
 It should be possible to store databases inside facts in another database.  How does that look/work?
 
 How is comparison defined on database values?
+
+Does GC need to work any differently with database values compared to other values?  I suspect not, but make sure to think through the full GC story.  I anticipate that databases will eventually be used to store short term, transitory data as well as long term data like code.
