@@ -15,3 +15,6 @@ where `replace_pi.ama` contains
     macro_expansion expression Pi π
         number Pi
         abs(Pi - π) < 0.001
+
+
+It's really important that developers be able to quickly locate a predicate that can accomplish the task they want.  Haskell's hoogle tool is fantastic for this.  I search for `[a] -> Int` and the first result is `length :: [a] -> Int`.  I should be able to search for `+list -integer` and get back `length +List:list -Length:integer`.  The order of arguments shouldn't matter.  Types and modes should be strictly observed.
