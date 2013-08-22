@@ -91,3 +91,6 @@ The `exporter` module creates a `perform_import/3` predicate in the database rep
 Under this architecture, modules can perform all kinds of useful work on behalf of their importers.  It also leaves it up to the exporting module to perform the exporting.  The exporting module certainly knows more about exporting its predicates that any generalized module system could.
 
 By treating modules as completely isolated data containers (just database values), we should be able to realize some efficiencies for loading code in parallel.  For example, we could load all import modules in parallel. After they've all loaded, we can call `perform_import` serially to handle the actual imports.
+
+
+I'd like to be able to define a module whose definition is spread out among several files.  Go does this and for large functions, I find it helpful to be able to have one file per public function and define all the internal helper functions inside it.  This also keeps the file size reasonable and often makes it easier to navigate around.  Smalltalk variants are able to completely abandon textual relationship between classes and methods because they view code inside an image.  That's great, but it usually requires special tools.  Programmers love the editors they already have and using a language shouldn't require using a special editor.
