@@ -94,3 +94,30 @@ By treating modules as completely isolated data containers (just database values
 
 
 I'd like to be able to define a module whose definition is spread out among several files.  Go does this and for large functions, I find it helpful to be able to have one file per public function and define all the internal helper functions inside it.  This also keeps the file size reasonable and often makes it easier to navigate around.  Smalltalk variants are able to completely abandon textual relationship between classes and methods because they view code inside an image.  That's great, but it usually requires special tools.  Programmers love the editors they already have and using a language shouldn't require using a special editor.
+
+## Metadata
+
+It seems useful to have a way of tracking metadata about predicates.  For example: mode, determinism, documentation, argument types, etc.  I don't presume to know a priori what kinds of metadata users will want to associate with their predicates.  Taking it to the extreme, that suggests that each predicate should have a meta database associated with it.  Predicates in that "metabase" convey information about the predicate.
+
+Imagine a predicate like this (made up syntax):
+
+    // counts the number of columns in a CSV line
+    column_count +CSV:atom -Count:integer is semidet
+
+given that definition, the "metabase" for `column_count/2` might have these entries:
+
+    types atom integer
+
+    mode in out semidet
+
+    summary 'counts the number of columns in a CSV line'
+
+Of course, that assumes that `column_count/2` is a first class entity which can be referenced and whose metabase can be obtained somehow.
+
+Maybe this can be built on lower level infrastructure by having metadata providers define facts for a `metabase/2/` predicate.  So we'd have
+
+    metabase column_count/2 ColumnCount2Metabase
+
+Where ColumnCount2Metabase is a first class database value with the contents described above.
+
+Are there use cases for having a metabase for arbitrary terms?  Clojure allows metadata like that.  It'd be worth reading about and seeing how often it's used in practice.
