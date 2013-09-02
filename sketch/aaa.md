@@ -63,3 +63,6 @@ Prolog clause indexing is an optimization to avoid executing clauses that we kno
 should be indexed exactly like
 
     foo(hi).
+
+
+I've implied elsewhere that Amalog allows users to define operators.  That feature and how it works should be an explicit part of the spec.  When reading an Amalog file as data, one should be able to specify which operators apply.  That way, one can specify operators for a config file syntax before loading the config file.  This gives sugary pleasantness and lets developers reues Amalog's parser, file loading and macro facility.
