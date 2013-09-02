@@ -56,7 +56,9 @@ By specifying the precise version number, it’s always clear which code should 
     import foo v1.3.5 [bar/1]
     import foo v2.0.1 [baz/2]
 
-Of course, if `bar/1` and `baz/2` each call a predicate internal to `foo`, we have to be sure to import both versions and rewrite `bar/1` and `baz/2` to call the correct version.  Maybe that’s going too far.  It gets awfully tiresome to write version numbers everywhere.  Then they all must be changed during an upgrade.  That suggests we should have a level of abstraction so that I can specify/change a version number in one place and have it propagate everywhere.  Dart’s pub system takes this approach with the `pubspec.yaml` file.  However, the term describing a module to be imported is already a layer of abstraction.  Step #1 above can do whatever it wants to convert the term into a database value, include looking inside an `amalogspec.yaml` file, or whatever.  Then one might just do
+Of course, if `bar/1` and `baz/2` each call a predicate internal to `foo`, we have to be sure to import both versions and rewrite `bar/1` and `baz/2` to call the correct version.  Maybe that’s going too far.
+
+It gets awfully tiresome to write version numbers everywhere.  Then they all must be changed during an upgrade.  That suggests we should have a level of abstraction so that I can specify/change a version number in one place and have it propagate everywhere.  Dart’s pub system takes this approach with the `pubspec.yaml` file.  However, the term describing a module to be imported is already a layer of abstraction.  Step #1 above can do whatever it wants to convert the term into a database value, include looking inside an `amalogspec.yaml` file, or whatever.  Then one might just do
 
     import foo(v1) [bar/1].
     import foo(v2) [baz/2].
@@ -121,3 +123,12 @@ Maybe this can be built on lower level infrastructure by having metadata provide
 Where ColumnCount2Metabase is a first class database value with the contents described above.
 
 Are there use cases for having a metabase for arbitrary terms?  Clojure allows metadata like that.  It'd be worth reading about and seeing how often it's used in practice.
+
+
+## Versioning
+
+Software projects of any significant scale require specific versions of specific modules.  As described above, the module import mechanism allows one to assign symbolic names to a specific version of a specific module.  For moderately large projects, one can specify version numbers by hand.  As projects grow larger still, it becomes unwieldy to manually find module versions that meet all constraints.  Many language communities have concluded that tools should solve those constraints and cache the solution in a project's repository so that all developers can work with the same module versions. [Ruby Bundler](http://bundler.io/) seems to be the defacto, industry leader.  In some cases, the tool can't resolve all constraints, so it asks for guidance from a developer.
+
+Because version resolution is just a constraint problem, it seems natural to allow constraints to be arbitrary Amalog rules.  A solution is just the first (or best) solution to those constraints.  There would be sugar for the most common constraints, just as Bundler has `~>` and friends.
+
+There's [some debate](https://groups.google.com/forum/m/#!msg/golang-nuts/sfshThQ_wrA/6QVvQ5GlctEJ) on the Go mailing list about versioning.  Go provides no support for it natively.  In the thread, several people say the proble shouldn't be solved or can't be solved.  The naysayers mostly seem to say, the problem can't be solved in all cases, so why bother solving it for any practical cases.  However, experience with Bundler and friends suggests that it can be solved for nearly all real world use cases.
