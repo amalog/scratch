@@ -6,4 +6,4 @@ Implementations in at least three different languages during early development. 
   * Haskell (functional, static)
   * Prolog (logic, dynamic)
 
-Start JavaScript by writing a CodeMirror mode. thisvbes
+Start JavaScript by writing a CodeMirror mode.  This gives us a tokenizer, text editor, syntax highlighter and auto-indenter for free.  This will also help me recognize complexity and rapidly iterate on syntax and tooling.
