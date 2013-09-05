@@ -11,3 +11,7 @@ Examples might include tabs vs spaces, indent size, identifier naming style, bra
 # Principle of Legibility
 
 Weight design decisions 10 to 1 in favor of reading code vs writing code.  Developers read code far more often than they write it.  We should optimize for the common case.
+
+# Principle of Performance
+
+Give runtime performance the lowest priority among all design factors.  Because of fast CPUs and cheap cloud servers, runtime performance is rarely worth the associated development cost.  When performance does matter, code becomes complex and confusing anyway or that component is rewritten in C.  In neither case does the languges typical semantics matter much.
