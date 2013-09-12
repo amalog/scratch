@@ -27,3 +27,29 @@ When code signals a condition, it's asking its ancestors in the call tree for he
 Kent Pitman's paper (above) suggests an interesting idea that might be applicable in Amalog: instead of having an ancestor return a single restart, it could return a set of constraints which the branches must satisfy.  Choosing a single restart is a specific case in which the constraint is `Restart=foo`.  Although the generality and power of the idea is enticing, I'd have to see some real use cases for this before adopting it.
 
 Should one who signals a condition be allowed to specify a default action to take if none of the call stack ancestors choose a restart for him?  The default might be to stop the program with an error message or it might be to guess at a reasonable way forward.
+
+## A Walk through Failure Forest
+
+*A parable of software error handling*
+
+A grandfather, a father and a son were walking on a path through the forest.  As they walked, they dropped little stones remind them which path they had taken.  At one point, grandfather stops and tells the other two to continue without him, they can return to tell him what they discovered when their adventure is done.  Miles and many forks in the road later, the father tells the son to go on without him.  "Come back and tell me what you found, when your adventure is done", he tells his son.
+
+The son continues forward on the path, following the guidance of rustic signs placed at forks in the road.  Sometimes the son encounters a fork without a sign.  If all paths look safe enough, he ventures down one path and backtracks when he finds a deadend.  At one fork, there is no sign and all paths forward look dangerous and questionable.  "What do I do?", wonders the son.
+
+### GOTO
+
+"Grandfather is probably lonely after all this time.  Forget the journey, I'll go back to him"  Jump!  The son is immediately back with his grandfather and forgotten everything about his journey.  They grandfather is startled nearly to death to see his grandson appear out of nowhere.  "Where did you come from!?  How did you get here?  Where's your father?"  "Hmm ... I don't know.  I'm not sure how I got here or where dad is.  Weren't we going to take a walk in the forest?"
+
+### Exceptions
+
+The son throws his hands in the air, abandons his backpack in brush and runs screaming back in the direction of his father managing to kick aside nearly every stone he left on his journey into the forest.  "What the heck is wrong with you?", asks the father puzzled.  "I saw a fork in the road and didn't know which way to go."  "Well, how did you get there?  Can you bring back to that spot so we can find the way forward together?"  I don't remember how I got there.  I only remember there as a fork in the road and all paths looked frightening"
+
+"Don't worry son.  At least I kept my calm about me this time.  Do you remember the last time you ran screaming out of the forest and spooked me too?" "Yeah," said the son, "we both yelled all the way back to grandfather before we finally settled down".
+
+### Conditions
+
+Pulling out his trusty cell phone, he says, "I guess I'll call dad and see if he knows what I should do"  "Dad? I'm at a fork in the road without any signs.  Both paths look dangerous.  Which way should I go?"  The son describes what sees at the fork and the path he took to arrive here.  "I think you should go right, but maybe call your grandfather and see if he knows for sure"
+
+"Grandpa? Which way should I go?", repeating the same descriptin he gave his father.  "Oh, I remember that route.  Back in '03 your grandmother and I ended up at that very same spot.  Now in those days, a three-headed COBOL lived to the left and that way was very unsafe.  I don't know what lives there now, but the right hand path smooths out a little further.  That's the way to go."
+
+The son continues on his way through the forest, discovers a delicious patch of berries and calmly delivers some of the fruit to his father and grandfather who are still waiting patiently where he left them.
