@@ -62,3 +62,14 @@ should be indexed exactly like
 
 
 I've implied elsewhere that Amalog allows users to define operators.  That feature and how it works should be an explicit part of the spec.  When reading an Amalog file as data, one should be able to specify which operators apply.  That way, one can specify operators for a config file syntax before loading the config file.  This gives sugary pleasantness and lets developers reues Amalog's parser, file loading and macro facility.
+
+
+# Bayesian Programming
+
+Logic programming is just a database of relations plus a search algorithm.  Could there be Bayesian programming?  The database is probabilistic relations and the search algorithm is Bayesian search.  We calculate the probability of a solution (S) based on the probability of a term (T) using Bayes formula
+
+    P(S|T) = P(T|S) * P(S) / P(T)
+
+As with Prolog, computation starts with an initial goal term T.  The developer defines the probability of each term (giving us `P(S)` and `P(T)`).  He also defines the probablity of each relation (gives us `P(T|S)`).  The top level calculates all solutions `S` and iterates them in order of increasing probability.  One might constrain solutions to only those exceeding a certain probability threshold.
+
+It seems like logic programming is a subset of Bayesian programming in which all probabilities are 1 (success) or 0 (fail).
