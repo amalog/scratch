@@ -72,4 +72,4 @@ Logic programming is just a database of relations plus a search algorithm.  Coul
 
 As with Prolog, computation starts with an initial goal term T.  The developer defines the probability of each term (giving us `P(S)` and `P(T)`).  He also defines the probablity of each relation (gives us `P(T|S)`).  The top level calculates all solutions `S` and iterates them in order of increasing probability.  One might constrain solutions to only those exceeding a certain probability threshold.
 
-It seems like logic programming is a subset of Bayesian programming in which all probabilities are 1 (success) or 0 (fail).
+It seems like logic programming is a subset of Bayesian programming in which all probabilities are 1 (success) or 0 (fail).  See [probabilistic logic](https://en.wikipedia.org/wiki/Probabilistic_logic) for work in this area.
