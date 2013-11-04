@@ -73,6 +73,34 @@ Databases are somewhat-sorta-kinda like associative arrays in other languages.  
         ]
     Nicks:william Bill
 
+## Indexing
+
+### Inner Goals
+
+Prolog clause indexing is an optimization to avoid executing clauses that we know will fail.  Most Prolog implementations only index static terms in a clause’s head.  Of course, goals in a clause body can also fail.  It would be neat if body goals could propagate information to the index to make it more efficient.  For example
+
+    foo(A) :- A = hi.
+
+should be indexed exactly like
+
+    foo(hi).
+
+A comment by Bart Demoen on the email thread "SWI-Prolog version 7 proposed changes" says that this behavior for unification goals was standard practice 30 years ago in BIM-Prolog and Aquarius Prolog.
+
+I want the idea to extend further than simple unification goals.  For exmaple, imagine that `new_foo(Foo)` unifies Foo with a foo/3 compound term.  Then
+
+    stuff(Foo) :-
+        new_foo(Foo).
+
+should index the exact same as
+
+    stuff(foo(A,B,C)) :-
+        Foo = foo(A,B,C),
+        new_foo(Foo).
+
+This is really just an implementation detail and doesn't impact how the language itself works.  I'm not sure we want a separate mechanism for predicates to specify how they are indexed.  Rather, we should just infer that indexing based on existing definitions.
+
+
 ## Questions
 
 It should be possible to store databases inside facts in another database.  How does that look/work?

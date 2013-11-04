@@ -52,15 +52,6 @@ Haskell’s comparison operators are great because one can overload them to beha
 
 It might be cool if all comparisons were just sugar for a deterministic call to predicate `compare/3`.  For example, `A<B` is desugared to `once(compare(<,A,B))`.  Then libraries can add clauses for compare/3 to support comparisons between their own values.  All other values retain standard value comparison.
 
-Prolog clause indexing is an optimization to avoid executing clauses that we know will fail.  Most Prolog implementations only index static terms in a clause’s head.  Of course, goals in a clause body can also fail.  It would be neat if body goals could propagate information to the index to make it more efficient.  For example
-
-    foo(A) :- A = hi.
-  
-should be indexed exactly like
-
-    foo(hi).
-
-
 I've implied elsewhere that Amalog allows users to define operators.  That feature and how it works should be an explicit part of the spec.  When reading an Amalog file as data, one should be able to specify which operators apply.  That way, one can specify operators for a config file syntax before loading the config file.  This gives sugary pleasantness and lets developers reues Amalog's parser, file loading and macro facility.
 
 
