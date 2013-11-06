@@ -66,3 +66,10 @@ As with Prolog, computation starts with an initial goal term T.  The developer d
 It seems like logic programming is a subset of Bayesian programming in which all probabilities are 1 (success) or 0 (fail).  See [probabilistic logic](https://en.wikipedia.org/wiki/Probabilistic_logic) for work in this area.
 
 [ProbLog](http://dtai.cs.kuleuven.be/problog/) seems to be the most fully developed tool in this space.  It has a [tutorial](http://dtai.cs.kuleuven.be/problog/tutorial.html) and plenty of academic papers on the subject.
+
+
+# Homoiconic
+
+It seems that many of Prolog's powerful features derive from its homoiconicity.  Constructing macros, transforming programs, creating dynamic predicates, etc. all benefits from homoiconicity.  At heart, a language is homoiconic if its programs are represented as a primitive data type in the langugae.  That's a little vague because a Python program could parse into an AST built out of dictionaries.  However the native representation of those dictionaries is different than the source code.
+
+I want an objective rule to make sure that Amalog is homoiconic.  Perhaps isomorphism already gives me that.  I should be able to read a program into a data structure and then write that data structure in its native form to get the exact same program I started with.  I can build up a data structure and write it out to get a program which, when parsed produces the same data structure.
