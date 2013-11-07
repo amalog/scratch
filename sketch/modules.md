@@ -132,3 +132,10 @@ Software projects of any significant scale require specific versions of specific
 Because version resolution is just a constraint problem, it seems natural to allow constraints to be arbitrary Amalog rules.  A solution is just the first (or best) solution to those constraints.  There would be sugar for the most common constraints, just as Bundler has `~>` and friends.
 
 There's [some debate](https://groups.google.com/forum/m/#!msg/golang-nuts/sfshThQ_wrA/6QVvQ5GlctEJ) on the Go mailing list about versioning.  Go provides no support for it natively.  In the thread, several people say the proble shouldn't be solved or can't be solved.  The naysayers mostly seem to say, the problem can't be solved in all cases, so why bother solving it for any practical cases.  However, experience with Bundler and friends suggests that it can be solved for nearly all real world use cases.
+
+
+## Execution
+
+I like the idea of each module being a completely isolated database.  When a program is loaded, all module imports are processed and the end result is a single `main` database.  This database has a single `main` predicate as the entry point.  This is like compiling a static binary in which all libraries have been incorporated.  It can stand on its own.
+
+Having a single entry point (`main` predicate) also makes it easier to walk the code tree and perform various analyses.  [Dart](http://www.dartlang.org) takes that approach so that tree shaking works nicely.

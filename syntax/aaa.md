@@ -6,6 +6,14 @@ Punctuation is highly valuable in programming syntax.  It's easy to type, succin
 
 Many languages waste punctuation on rarely used operations like bitwise operators.  In a high level language that rarely twiddles bits, I'd much rather use word operators (xor, and, or, negate) for bitwise operations and reserve punctuation operators (^ & | !) for common operations.
 
+## Standard Binary Format
+
+Perhaps along with the standard syntax, we also define a standard Protocol Buffers serialization of a program.  This would allow one to build a single monolithic `main` module out of its constituent parts.  Then serialize it into a compact binary representation for distribution.  This is similar in principle to [Dart's snapshots](http://www.dartlang.org).  It factors out all parsing and importing overhead.
+
+This could be especially helpful for embedding Amalog in constrained environments like a web browser.  The binary representation is small and easily transmitted over the web.  The local JavaScript implementation can also be smaller because it doesn't need a full parser and module implementation.  It can just load and run the Protocol Buffer code directly.
+
+We did something roughly similar with Golog.  It doesn't have a module system, so we use SWI-Prolog's module system to load our code.  Then we walk the code and extract all predicates that are needed for execution.  That's serialized into a single Prolog file which Golog can run.  That made it much easier to build a working Prolog implementation.
+
 ## Research on visual design
 
 Programming language syntax design is dangerously devoid of any scientific basis. We use curly braces because C did it many years ago.  It's been cargo culted along since then.  This section is an attempt to understand what research has been done into visual design and reading/visual comprehension as it relates to programming language syntax design.  Certainly psychologists and graphic designers have something to teach us here.
