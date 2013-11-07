@@ -14,16 +14,22 @@ Taking the list of types from a [typical modern language](http://www.lua.org/pil
   * map
   * thread
 
-Lua has had great success replacing `array` with a `map` ("table") whose keys are all integers, `N > 0`.  What if we follow the same exercise and consolidate nearly everything into a database.
+Lua has had great success replacing `array` with a `map` ("table") whose keys are all integers, `N > 0`.  What if we follow the same exercise and consolidate nearly everything into a database type.
 
 A database is a name and list of clauses.  An advanced implementation will have many specialized implementations, but using Go-like notation we can start with:
 
+    type Term = Number | Database
+    type NameId int64
     type Database struct {
-        Name    string
-        Clauses []Database
+        Name    NameId
+        Clauses []Term
     }
 
-I'll use Prolog module notation to show how each type can be represented as a database.  `number` is fundamental (arbitrary precision rationals).
+`NameId` is just an integer which looks up a human readable name from a global table.  Small names can be treated as base-32 integers so the lookup table isn't needed.  For large names, the ID might be a hash of its contents.
+
+I'll use Prolog module notation to show how each desired type can be represented as a database.  `number` is fundamental (arbitrary precision rationals).
+
+In these examples, I write `Name` as if it were string.  That's shorthand for the `NameId` mechanism.
 
 ### Atom
 
@@ -34,16 +40,29 @@ The atom `foo` is represented as an empty database with just a name:
         Clauses = []
     }
 
+Atoms are fancy integers without arithmetic.  They should consume almost no memory and equality comparisons must be very fast. Using a `NameId` for an atom is just right.
+
 ### String
 
-Use atoms to represent strings.  Most Prolog implementations separate them, but they're semantically close enough that I think they should be merged.  The string `"foo"` is an empty database with a name.
+The string `"foo"` is represented with one clause per code point.
 
     Database{
-        Name = "foo"
-        Clauses = []
+        Name = "__string"
+        Clauses = [
+            0'f,
+            0'o,
+            0'o,
+        ]
     }
 
-Of course an optimized implementation would represent common strings/atoms as an integer and perform comparisons and unifications against the number rather than the entire content.
+Strings are semantically different from atoms.  With a string, the emphasis is on the content rather than its relation to other strings.
+
+I suppose this means that Amalog indented notation makes `"foo"` syntactic sugar for:
+
+    __string
+        0'f
+        0'o
+        0'o
 
 ### Compound Term
 
@@ -52,31 +71,52 @@ A compound term has a name and several subterms in a specific order.  `foo(a,b,c
     Database{
         Name = "foo"
         Clauses = [
-            Database{Name="0", Clauses=[Database{Name="a"}]}
-            Database{Name="1", Clauses=[Database{Name="b"}]}
-            Database{Name="2", Clauses=[Database{Name="c"}]}
+            Database{Name="a"},
+            Database{Name="b"},
+            Database{Name="c"},
         ]
     }
 
+This arrangement makes arg/3 easy (just array lookup).  It also makes compound terms a natural representation of a multiset of atoms:
+
+    Bag = bag(a,b,c),
+    Bag : a.    % true if 'a' is a member of the multiset
+
+This arrangement also makes Amalog indented notation for compound terms quite reasonable.  Each of `a`, `b` and `c` looks just like clauses within the `foo` database, which is exactly what they are.
+
+    foo
+        a
+        b
+        c
+
 ### Array
 
-An array or list is nearly identical to a compound term but has a conventional, internal-looking name.  `[a,b,c]` is:
+An array or list is nearly identical to a compound term but has a conventional, internal-looking name because the name is irrelevant in this context.  `[a,b,c]` is:
 
     Database{
-        Name = "__array"
+        Name = "__list"
         Clauses = [
-            Database{Name="0", Clauses=[Database{Name="a"}]}
-            Database{Name="1", Clauses=[Database{Name="b"}]}
-            Database{Name="2", Clauses=[Database{Name="c"}]}
+            Database{Name="a"}
+            Database{Name="b"}
+            Database{Name="c"}
         ]
     }
 
 To access the elements of an array, one calls a predicate, just like for other keys.
 
-    ?- Db:1(X).
+    ?- List : 1(X).
     X = b.
-    ?- N=1, Db:N(X).
+    ?- N=1, List : N(X).
     X = b.
+
+This suggests that `[a,b,c]` is sugar for `__list(a,b,c)`.  So, an array is another natural representation of a multiset.  Although it's less explicit than a `bag` compound term would be.
+
+In indent notation, we have `[a,b,c]` as sugar for
+
+    __list
+        a
+        b
+        c
 
 ### Map
 
@@ -95,10 +135,19 @@ Of course, a real implementation would have an index to avoid linear traversal o
 
 One accesses the elements of a map by using the keys as predicates:
 
-    ?- Db:b(X).
+    ?- Map : b(X).
     X = 2.
-    ?- Key=b, Db:Key(X).
+    ?- Key=b, Map : Key(X).
     X = 2.
+
+In Amalog indent notation `{a:1, b:2, c:3 }` is sugar for
+
+    __map
+        a 1
+        b 2
+        c 3
+
+Depending on the way in which keys and values are added (appended or replaced), a map can be a map or a multimap.  Each value for a key is iterated on backtracking.
 
 ### Thread
 
