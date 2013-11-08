@@ -47,7 +47,7 @@ Atoms are fancy integers without arithmetic.  They should consume almost no memo
 The string `"foo"` is represented with one clause per code point.
 
     Database{
-        Name = "__string"
+        Name = "__text"
         Clauses = [
             0'f,
             0'o,
@@ -59,7 +59,7 @@ Strings are semantically different from atoms.  With a string, the emphasis is o
 
 I suppose this means that Amalog indented notation makes `"foo"` syntactic sugar for:
 
-    __string
+    __text
         0'f
         0'o
         0'o
