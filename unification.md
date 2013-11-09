@@ -49,3 +49,69 @@ Many use cases for pre-unification hooks can be emulated with post-unification h
 Make sure that lazy goals (invoked only when needed) and parallel futures (work starts in parallel; on read, blocks until value ready) can be implemented in terms of this underlying, pre-unification hook mechanism.  Make sure that true LVars (like "Freeze After Writing") can also be implemented with pre- and post-unification hooks.
 
 Pre-unification hooks should only be run if we’re about to unify that specific variable, not a parent term.  For example if `X` has a pre-unify hook, it should not run during: `foo(X) = bar(test)`.  That’s because unification fails on the compound term’s name before ever trying `X=test`.
+
+# Not Built-in
+
+What if unification is not built in to the core language?  What if it's implemented in terms of more fundamental operations?  That would require less code in the core language, making it easier on implementers (unification can seem daunting).  I think it also facilitates many of the variable hooks and meet-join ideas above.  Of course, advanced implementations are allowed to treat it specially.
+
+For example, imagine the following definition of `=/2` (in speculative Amalog syntax):
+
+    X = Y
+        var X
+        var Y
+        !
+        // special rules for entangling two variables?
+        // maybe it creates a new variable which multiplexes
+        // loads and stores against the underlying variables?
+    X = Y
+        var X
+        nonvar Y
+        !
+        when
+            preunify_hook X PreHook
+            PreHook
+        store X Y
+        when
+            postunify_hook X PostHook
+            PostHook
+    X = Y
+        var Y
+        nonvar X
+        !
+        Y = X
+    X = Y
+        number X
+        number Y
+        !
+        X == Y
+    X = Y
+        database X
+        database Y
+        !
+        name X NameX
+        name Y NameY
+        NameX == NameY
+        arity X ArityX
+        arity Y ArityY
+        ArityX == ArityY
+        clauses X ClausesX
+        clauses Y ClausesY
+        map (=) ClausesX ClausesY
+
+This correctly support nondeterminism in pre- and post-unification hooks.  It only requires the following fundamental operations from the implementation:
+
+  * type checks - `var/1`, `number/1` and `database/1`
+  * accessors - `preunify_hook/2`, `name/2`, `arity/2`, `clauses/2`, etc.
+  * cut - `!/0`
+  * raw storage locations - `store/2`
+    * probably thread local and mutex-protected global variants
+  * identity comparison - `==/2`
+
+An implementation will typically execute a goal as if it were written something like this:
+
+    ( Goal = Head1, Body1
+    ; Goal = Head2, Body2
+    ; Goal = Head3, Body3
+    )
+
+That won't work if `=/2` is implemented as a regular predicate.  `=/2` needs special semantics which tell it only to match the head based on a predicate's name and arity.  Otherwise we get an infinite unification loop.
