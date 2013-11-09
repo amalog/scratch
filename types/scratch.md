@@ -1,6 +1,6 @@
 # Scratch
 
-## Numbers and Databases
+## Numbers and Databases and Variables
 
 I want Amalog to have very few types.  I originally planned for two: numbers and nodes.  A node generalizes Prolog compound terms and Prolog atoms. However I also want first class databases and first class maps.
 
@@ -148,6 +148,20 @@ In Amalog indent notation `{a:1, b:2, c:3 }` is sugar for
         c 3
 
 Depending on the way in which keys and values are added (appended or replaced), a map can be a map or a multimap.  Each value for a key is iterated on backtracking.
+
+### Variables
+
+A variable is just a level of indirection wrapping a thread-local value plus  some hooks.  Values (and hooks?) are unwound on backtracking.
+
+    type Variable struct {
+        Name NameId
+        Flavor NameId
+        Value  NonVar // Database or Number
+        HookPreUnify Database
+        HookPostUnify Database
+    }
+
+By default, a variable has `Flavor="logical"` and it behaves exactly like a Prolog logic variable. One can also design and use other variable flavors such as [freeeze-on-read LVars](http://composition.al/blog/categories/lvars/) or variables that only accept integers or prime numbers, etc.
 
 ### Thread
 

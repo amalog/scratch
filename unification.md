@@ -69,11 +69,11 @@ For example, imagine the following definition of `=/2` (in speculative Amalog sy
         !
         when
             preunify_hook X PreHook
-            PreHook
-        store X Y
+            call PreHook X Y Y1
+        var_store X Y1
         when
             postunify_hook X PostHook
-            PostHook
+            call PostHook X
     X = Y
         var Y
         nonvar X
@@ -103,8 +103,7 @@ This correctly support nondeterminism in pre- and post-unification hooks.  It on
   * type checks - `var/1`, `number/1` and `database/1`
   * accessors - `preunify_hook/2`, `name/2`, `arity/2`, `clauses/2`, etc.
   * cut - `!/0`
-  * raw storage locations - `store/2`
-    * probably thread local and mutex-protected global variants
+  * variables - `var_store/2`
   * identity comparison - `==/2`
 
 An implementation will typically execute a goal as if it were written something like this:
