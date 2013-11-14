@@ -166,3 +166,10 @@ By default, a variable has `Flavor="logical"` and it behaves exactly like a Prol
 ### Thread
 
 This is probably a primitive type.  It doesn't have a natural mapping to databases.
+
+
+## psi-terms
+
+The Prolog derivative [LIFE](http://www.din.uem.br/ia/ferramentas/tut_life.gz) is based on psi-terms.  They are an extension of Prolog compound terms where each argument has a name.  See Chapter 3 of the linked document.  It also provides references to other Prolog derivatives based on a similar idea.
+
+LIFE extends a bit too far by supporting inheritance for psi-terms, but I like the basic idea.  It's similar to my goal of consolidating all data types into the database type.  LIFE's implementation of lists, clauses, functions, etc. in terms of psi-terms could be instructive.
