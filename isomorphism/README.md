@@ -6,8 +6,11 @@ Syntax errors:
 
   * presence of tab characters
   * presence of trailing whitespace
+  * presence of carriage return characters
   * missing a version number
   * using a non-UTF8 encoding
+
+Outlawed characters are allowed within raw character strings.
 
 
 # Examples
