@@ -173,3 +173,17 @@ This is probably a primitive type.  It doesn't have a natural mapping to databas
 The Prolog derivative [LIFE](http://www.din.uem.br/ia/ferramentas/tut_life.gz) is based on psi-terms.  They are an extension of Prolog compound terms where each argument has a name.  See Chapter 3 of the linked document.  It also provides references to other Prolog derivatives based on a similar idea.
 
 LIFE extends a bit too far by supporting inheritance for psi-terms, but I like the basic idea.  It's similar to my goal of consolidating all data types into the database type.  LIFE's implementation of lists, clauses, functions, etc. in terms of psi-terms could be instructive.
+
+Here's Richard A. O'Keefe's summary:
+
+> LIFE uses psi-terms.  A PSI-term is
+> - a variable, or
+> - a number, or
+> - a compound term, which has a function symbol and
+> - zero or more arcs labelled with constants leading
+>   to other psi-terms
+>
+> A psi-term whose labels are the integers from 1..N for
+>some N is just a Prolog term of arity N.
+
+He also mentions [this LIFE document](http://hassan-ait-kaci.net/pdf/life.pdf).
