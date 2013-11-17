@@ -69,3 +69,9 @@ It seems like logic programming is a subset of Bayesian programming in which all
 It seems that many of Prolog's powerful features derive from its homoiconicity.  Constructing macros, transforming programs, creating dynamic predicates, etc. all benefits from homoiconicity.  At heart, a language is homoiconic if its programs are represented as a primitive data type in the langugae.  That's a little vague because a Python program could parse into an AST built out of dictionaries.  However the native representation of those dictionaries is different than the source code.
 
 I want an objective rule to make sure that Amalog is homoiconic.  Perhaps isomorphism already gives me that.  I should be able to read a program into a data structure and then write that data structure in its native form to get the exact same program I started with.  I can build up a data structure and write it out to get a program which, when parsed produces the same data structure.
+
+# Quantum Mechanics
+
+Quantum mechanics offers some interesting parallels to logic programming.  Unifying two unbound logic variables [entangles](http://en.wikipedia.org/wiki/Quantum_entanglement) them so a change to one is immediately reflected in the other.  Constraint logic programming (like library(clpfd)) creates [variable superposition](http://en.wikipedia.org/wiki/Quantum_superposition) with multiple values seemingly stored in a single variable.  Mercury (and Haskell's) type inference for type classes reminds me a lot of the [quantum eraser](http://en.wikipedia.org/wiki/Quantum_eraser_experiment) (want a particle, get a particle; want a wave, get a wave).
+
+What other quantum phenomenon could be implemented as features of a programming language?  How would they be useful?
