@@ -151,6 +151,8 @@ Depending on the way in which keys and values are added (appended or replaced), 
 
 ### Variables
 
+See [variables document](variables.md) for more thoughts.
+
 A variable is just a level of indirection wrapping a thread-local value plus  some hooks.  Values (and hooks?) are unwound on backtracking.
 
     type Variable struct {

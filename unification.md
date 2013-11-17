@@ -52,6 +52,8 @@ Pre-unification hooks should only be run if we’re about to unify that specific
 
 # Not Built-in
 
+See [variables document](variables.md) for more thoughts about how variables tie in with unification.
+
 What if unification is not built in to the core language?  What if it's implemented in terms of more fundamental operations?  That would require less code in the core language, making it easier on implementers (unification can seem daunting).  I think it also facilitates many of the variable hooks and meet-join ideas above.  Of course, advanced implementations are allowed to treat it specially.
 
 For example, imagine the following definition of `=/2` (in speculative Amalog syntax):

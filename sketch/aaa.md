@@ -10,8 +10,6 @@ Programs are compiled into statically linked binaries
 
 structs are allowed to reuse accessor names used by other structs. type inference should discern which of the accessor functions is needed for any given invocation.
 
-Built in support for laziness and futures. These are very hard to add to a language without compiler support. Using a lazy or future value should not require a force function.  Creating them may require special syntax but using them must be identical to using other variables.
-
 Offer generic collection literals (probably with [] syntax) and let the compiler choose which collection data structure to use based on how the collection itself is used in the program. Developers could choose a specific implementation if they needed to. For example, a collection that's only iterated left to right might be implemented as a linked list. A collection that's only tested for membership could be implemented as a set. A small collection that's treated as a map could be an association list, whereas a large one could be a hash map. The compiler should be free to change implementations at runtime as conditions change. It could also make those decisions based on profile data. The main point is that a developer shouldn't have to think about a bunch of data structure implementation tradeoffs or guess how they'll affect performance.
 
 A Prolog like language should be able to reorder goals inside a clause based on a goal's probability of failure and its likely execution cost.  For ideas on implementing this, see Efficient Reordering of Prolog Programs by Gooley and Wah, 1988.
@@ -21,8 +19,6 @@ Allow developers to supply multiple implementations of a single function/procedu
 No null value. See http://qconlondon.com/london-2009/presentation/Null+References:+The+Billion+Dollar+Mistake
 
 Consider using a language tool chain like LLVM or PyPy which can do JIT. PyPy handles garbage collection too. JIT is pretty much essential these days for a new language to compete with the big boys.
-
-A language like Prolog which defines relations between variables. However those relations should all be lazy like CLP(FD) or coroutines. This allows greater code reuse (arbitrary modes permitted, constraint reordering). It also gives the compiler greater flexibility to rearrange clauses for performance gains.
 
 My ideal language is a constraint logic language because functional programming is a subset thereof.
 
