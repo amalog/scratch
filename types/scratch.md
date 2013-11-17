@@ -153,17 +153,17 @@ Depending on the way in which keys and values are added (appended or replaced), 
 
 See [variables document](variables.md) for more thoughts.
 
-A variable is just a level of indirection wrapping a thread-local value plus  some hooks.  Values (and hooks?) are unwound on backtracking.
+A variable is some hooks and a wrapper around a storage location (thread-local or mutex-protected global).  Values are unwound on backtracking.
 
     type Variable struct {
         Name NameId
-        Flavor NameId
-        Value  NonVar // Database or Number
-        HookPreUnify Database
-        HookPostUnify Database
+        Storage  Ref // thread-local or mutex-protected global
+        HookPreLoad Database  // goal to call before fetching value
+        HookPreStore Database // goal to call before storing a new value
+        HookPostStore Database // goal to call after storing value
     }
 
-By default, a variable has `Flavor="logical"` and it behaves exactly like a Prolog logic variable. One can also design and use other variable flavors such as [freeeze-on-read LVars](http://composition.al/blog/categories/lvars/) or variables that only accept integers or prime numbers, etc.
+By default, a variable's hooks implement logic variable semantics so it behaves exactly like a Prolog logic variable. One can also design and use other variable flavors.  `HookPreLoad` supports Alice ML futures.  `HookPreLoad` and `HookPreStore` support [freeeze-on-read LVars](http://composition.al/blog/categories/lvars/).  `HookPostStore` supports attributed variables.  `HookPreStore` supports variables restricted to a specific type (strings, primes, positive integers, etc).
 
 ### Thread
 
