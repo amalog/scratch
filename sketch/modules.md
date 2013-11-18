@@ -139,3 +139,9 @@ There's [some debate](https://groups.google.com/forum/m/#!msg/golang-nuts/sfshTh
 I like the idea of each module being a completely isolated database.  When a program is loaded, all module imports are processed and the end result is a single `main` database.  This database has a single `main` predicate as the entry point.  This is like compiling a static binary in which all libraries have been incorporated.  It can stand on its own.
 
 Having a single entry point (`main` predicate) also makes it easier to walk the code tree and perform various analyses.  [Dart](http://www.dartlang.org) takes that approach so that tree shaking works nicely.
+
+## Naming
+
+If possible, use a different naming convention for modules and the packages through which they're distributed.  Hackage is a good example.  The package `network-bitcoin` contains the module `Network.Bitcoin`  This makes it clear when I'm talking about the module and when the package.
+
+Contrast that with CPAN.  Packages and modules have an identical naming convention.  I just wrote a Makefile.PL in which I specificed a requirement on the module `URI::QueryParam` because I thought the file wanted module names.  It actually wanted package names (needing `URI` in this case), but the context confused the two.
