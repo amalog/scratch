@@ -158,9 +158,7 @@ A variable is some hooks and a wrapper around a storage location (thread-local o
     type Variable struct {
         Name NameId
         Storage  Ref // thread-local or mutex-protected global
-        HookPreLoad Database  // goal to call before fetching value
-        HookPreStore Database // goal to call before storing a new value
-        HookPostStore Database // goal to call after storing value
+        Hooks Database // goals to call at critical points
     }
 
 By default, a variable's hooks implement logic variable semantics so it behaves exactly like a Prolog logic variable. One can also design and use other variable flavors.  `HookPreLoad` supports Alice ML futures.  `HookPreLoad` and `HookPreStore` support [freeeze-on-read LVars](http://composition.al/blog/categories/lvars/).  `HookPostStore` supports attributed variables.  `HookPreStore` supports variables restricted to a specific type (strings, primes, positive integers, etc).
