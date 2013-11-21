@@ -75,3 +75,14 @@ I want an objective rule to make sure that Amalog is homoiconic.  Perhaps isomor
 Quantum mechanics offers some interesting parallels to logic programming.  Unifying two unbound logic variables [entangles](http://en.wikipedia.org/wiki/Quantum_entanglement) them so a change to one is immediately reflected in the other.  Constraint logic programming (like library(clpfd)) creates [variable superposition](http://en.wikipedia.org/wiki/Quantum_superposition) with multiple values seemingly stored in a single variable.  Mercury (and Haskell's) type inference for type classes reminds me a lot of the [quantum eraser](http://en.wikipedia.org/wiki/Quantum_eraser_experiment) (want a particle, get a particle; want a wave, get a wave).
 
 What other quantum phenomenon could be implemented as features of a programming language?  How would they be useful?
+
+# Lists as Interface
+
+Richard A. O'Keefe, in a discussion about strings vs code lists says:
+
+> In the same way, in the NU Prolog approach, a byte-per-element string
+> *IS* a code list, just stored differently.
+
+This is a vital point.  A list is really just an interface to some data.  Namely the interface that lets you conveniently access the first element and the rest of the elements.  [Clojure sequences](http://clojure.org/sequences) make the exact same realization.  Anything that provides the `[H|T]` interface (in Prolog syntax) can be treated as a list.  Strings can implement it (giving character codes), databases can implement it (giving clauses), streams can implement it (giving bytes), trees can implement it (giving in-order traversal), maps can implement it (giving pairs), etc.
+
+Prolog works great on lists.  One does a great harm when "list" is forced to mean only a "cons-cell linked list."
