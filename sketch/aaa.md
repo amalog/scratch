@@ -86,3 +86,15 @@ Richard A. O'Keefe, in a discussion about strings vs code lists says:
 This is a vital point.  A list is really just an interface to some data.  Namely the interface that lets you conveniently access the first element and the rest of the elements.  [Clojure sequences](http://clojure.org/sequences) make the exact same realization.  Anything that provides the `[H|T]` interface (in Prolog syntax) can be treated as a list.  Strings can implement it (giving character codes), databases can implement it (giving clauses), streams can implement it (giving bytes), trees can implement it (giving in-order traversal), maps can implement it (giving pairs), etc.
 
 Prolog works great on lists.  One does a great harm when "list" is forced to mean only a "cons-cell linked list."
+
+We might imagine a predicate `sequence(Head, Tail, Whole)` where
+
+    sequence(-Head, -Tail, +Whole) % take apart a sequence
+    sequence(+Head, +Tail, -Whole) % assemble a sequence from parts
+
+Any data structure could implement clauses for this predicate to act like a list.  `[H|T]` is just syntactic sugar for `sequence/3` like this:
+
+    foo([H|T]).
+    % -- desugars to -->
+    sequence(H, T, Whole),  % delays until a valid mode is found
+    foo(Whole).
