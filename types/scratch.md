@@ -157,6 +157,7 @@ A variable is some hooks and a wrapper around a storage location (thread-local o
 
     type Variable struct {
         Name NameId
+        Flavor NameId
         Storage  Ref // thread-local or mutex-protected global
         Hooks Database // goals to call at critical points
     }
