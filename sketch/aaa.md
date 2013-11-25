@@ -98,3 +98,11 @@ Any data structure could implement clauses for this predicate to act like a list
     % -- desugars to -->
     sequence(H, T, Whole),  % delays until a valid mode is found
     foo(Whole).
+
+# Large Number Arithmetic
+
+Paul Tarau has done [some](http://logic.cse.unt.edu/tarau/research/2013/slides_ciclops13.pdf) [work](http://logic.cse.unt.edu/tarau/research/2013/rrl.pdf) on representing large numbers as Prolog terms.  One can perform computation on these large numbers very efficiently and they occupy very little memory.
+
+It could be cool to have an implementation of Amalog numbers which works this way internally.  When the system encounters numbers larger than the native word size, upgrade to this representation internally.
+
+It might also work better as a basis for clpfd because the math operations are mostly reversible.
