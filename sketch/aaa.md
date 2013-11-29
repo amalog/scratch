@@ -101,8 +101,26 @@ Any data structure could implement clauses for this predicate to act like a list
 
 # Large Number Arithmetic
 
-Paul Tarau has done [some](http://logic.cse.unt.edu/tarau/research/2013/slides_ciclops13.pdf) [work](http://logic.cse.unt.edu/tarau/research/2013/rrl.pdf) on representing large numbers as Prolog terms.  One can perform computation on these large numbers very efficiently and they occupy very little memory.
+Paul Tarau has [done](http://logic.cse.unt.edu/tarau/research/2013/hbn.pdf) [some](http://logic.cse.unt.edu/tarau/research/2013/slides_ciclops13.pdf) [work](http://logic.cse.unt.edu/tarau/research/2013/rrl.pdf) on representing large numbers as Prolog terms.  One can perform computation on these large numbers very efficiently and they occupy very little memory.
 
 It could be cool to have an implementation of Amalog numbers which works this way internally.  When the system encounters numbers larger than the native word size, upgrade to this representation internally.
 
 It might also work better as a basis for clpfd because the math operations are mostly reversible.
+
+Incidentally, using this implementation for numbers would eliminate numbers as a fundamental type in Amalog.  I don't know that that's a primary goal, but it's something worth thinking about.  All arithmetic operations would then be defined in terms of Amalog code so it'd be identical across platforms, regardless of their number implementation (think JavaScript).  I'm just guessing that there are substantial performance implications on typical code.  If this is the interface for numbers, an Amalog implementation can always choose to implement them more efficiently in specific cases.
+
+# Backtracking Hooks
+
+[SICStus undo/1](http://sicstus.sics.se/sicstus/docs/3.12.8/html/sicstus/Misc-Pred.html) predicate schedules a goal to be called on backtracking.  It requires system support to make it immune to cuts.  [Mercury trailing](http://www.mercurylang.org/information/doc-latest/mercury_ref/Trailing.html) offers a similar feature (only for C code for now).  Jekejeke Prolog [supports sys_unbind/1](https://plus.google.com/+JekejekeCh/posts/R3abr1AMDkp) which does something very similar.
+
+I've wanted programmable backtracking on several occasions.  It would be nice to have it in Amalog.  The first time I ever thought about this was when writing `gitc` for Grant Street Group.  We perform a bunch of Git commands on a repository.  If everything succeeds, the `gitc` finishes and none of the side effects are undone.  However, if something goes wrong we backtrack, undoing side effects along the way, and try again.  This can't be done with call_cleanup/2 because that cleanup code is called on success and failure.
+
+A weak form of this predicate could be implemented as:
+
+    undo _
+    undo Goal
+        Goal
+        !
+        fail
+
+but another goal can cut away undo's choicepoint preventing it from being executed on backtracking.  I don't think undo/1 be implemented in terms of call_cleanup/2 or `setup_call_catcher_cleanup/4` because we still need a way to schedule code on backtracking, even if we can preserve state across backtracking and cut.
