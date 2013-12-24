@@ -26,11 +26,11 @@ Embedding a Python multiline string:
 
 # Reasoning
 
-Go uses ``text`` for raw strings.  It works great in practice and has very low syntactic overhead.  Go’s raw strings aren’t quite raw since they have escaping for backquote itself.  Amalog avoids all escapes by letting the developer choose the open and close delimiter.
+Go uses backticks for raw strings.  It works great in practice and has very low syntactic overhead.  Go’s raw strings aren’t quite raw since they have escaping for backquote itself.  Amalog avoids all escapes by letting the developer choose the open and close delimiter.
 
 One cannot directly create a raw string whose first or last character is a backquote.  To work around it, one might start or end with whitespace and strip it in a follow up step.
 
-Analog has no built-in support for string escapes. They can be implemented as a macro on top of raw text, if someone wants them.  For example, instead of
+Amalog has no built-in support for string escapes. They can be implemented as a macro on top of raw text, if someone wants them.  For example, instead of
 
     “one\ntwo\nthree”
     
