@@ -73,7 +73,7 @@ Developers add clauses to `text_term` to define how raw text is converted into t
 
 ## End of line text
 
-For short DSLs (like math notation), it would be convenient to have raw strings which extend to the end of a line.  Many natural languages use the [quotation dash](http://en.wikipedia.org/wiki/International_variation_in_quotation_marks#Quotation_dash) for such purposes.  We don't want to require developers to type Unicode characters (`U+2015`), so we could use two adjacent hyphens.
+For short DSLs (like math notation), it would be convenient to have raw strings which extend to the end of a line.  Many natural languages use the [quotation dash](http://en.wikipedia.org/wiki/International_variation_in_quotation_marks#Quotation_dash) for such purposes.  We don't want to require developers to type Unicode characters (`U+2015`), so we could use two adjacent hyphens.  Because the end of string delimiter is the newline character, the string can contain the starting delimiter.
 
 ```
 math -- X = 27*Y + 3
@@ -85,4 +85,9 @@ which is equivalent to
 math `X = 27*Y + 3`
 ```
 
-Maybe the benefits aren't substantial enough to justify having this special syntax.  It's worth considering.  An end of line string also needs to consider how end of line comments work.  Should the two be unified somehow?  Semantically an end of line comment and an end of line string are different.  The former has no influence on execution while the latter does.
+Maybe the benefits aren't substantial enough to justify having this special syntax.  It's worth considering.
+
+An end of line string needs to consider how end of line comments work.  Should the two be unified somehow?  Semantically an end of line comment and an end of line string are different.  The former has no influence on execution while the latter does.
+
+
+An end of line string needs to consider how isomorphic syntax handles end of line strings and raw strings that happen to conclude at the end of a line.
