@@ -1,11 +1,5 @@
 # Random, Unorganized Thoughts
 
-# Punctuation
-
-Punctuation is highly valuable in programming syntax.  It's easy to type, succinct to read visuallly different from surrounding text.  It also provides a recognizable subset of the characters available.
-
-Many languages waste punctuation on rarely used operations like bitwise operators.  In a high level language that rarely twiddles bits, I'd much rather use word operators (xor, and, or, negate) for bitwise operations and reserve punctuation operators (^ & | !) for common operations.
-
 ## Standard Binary Format
 
 Perhaps along with the standard syntax, we also define a standard Protocol Buffers serialization of a program.  This would allow one to build a single monolithic `main` module out of its constituent parts.  Then serialize it into a compact binary representation for distribution.  This is similar in principle to [Dart's snapshots](http://www.dartlang.org).  It factors out all parsing and importing overhead.
@@ -192,8 +186,6 @@ which might be translated as
         stop
 
 so each predicate demands an argument.  There is only one value in context, so that must be the argument intended.  It's only ambiguous if `move_forward/0` exists.  This also reminds me that programming languages almost always through out all information contained in variable names.  Why not use variable names to determine which predicates should receive that variable as an argument.  That probably requires someone to describe variable names or naming conventions.
-
-In 100% of cases, the not operator has low precedence.  "not a or b" means "not (a or b)".  Subsequent studies (see Tabular below), show that "not" has higher precedence than "and" but lower precedence than "or".
 
 People seem to use sets as a primitive data structure even though they don't know about data structures.  Few languages have convenient support for sets.
 

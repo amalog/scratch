@@ -22,12 +22,6 @@ Consider using a language tool chain like LLVM or PyPy which can do JIT. PyPy ha
 
 My ideal language is a constraint logic language because functional programming is a subset thereof.
 
-merd uses WYSIHIIP to let whitespace dictate parenthesis. An interesting idea. I'd have to play with it for a while to see how it works in practice. This approach might allow one to eliminate all operator precedence levels.
-
-Operator precedence numbers are obnoxious. It'd be nice to use the Cecil way: define a partial-order relation on operators.
-
-Postfix operators are convenient for syntactic sugar.  For example, a date library which defines days, weeks, hours, etc. as postfix operators allows: add(Date0, 3 days, Date).
-
 Efficient data structures typically have a larger impact on runtime performance than efficient programming languages.  That suggests that a language should focus on being able to easily reuse libraries that implement efficient data structures.
 
 To facilitate tooling, one should be able to easily tokenize the language without having to parse it.  For syntax highlighting, rudimentary syntax checking, style checking, pretty printing, etc., a quick tokenization phase is enough.  It should be easy to do.
@@ -41,15 +35,6 @@ Language releases should break backwards compatibility regularly and without hes
 Shebang syntax (#! as first two characters) should be supported so that one can write Unix scripts in the language.
 
 After an optional shebang line, the first content of the file should be a version indicator.  Running code for a version later than the current interpreter causes a compile time error.  Having the version right up front lets us make dramatic changes to the language .  It also allows tools to know which version this code was written for.
-
-There should be one set of comparison operators that works across values, regardless of their type.  For example, Prolog has < and @<. The latter is necessary because the former confounds arithmetic evaluation and value comparison.  The latter does straight value comparison.  Orthogonal concepts should almost never be combined, because the can’t be separated afterwards.
-
-Haskell’s comparison operators are great because one can overload them to behave correctly for one’s domain.  Prolog’s @< operator is great because it allows one to compare all possible data values.  This saves developers from exponential comparison explosion (one library defining how its values compare to all other library’s values).
-
-It might be cool if all comparisons were just sugar for a deterministic call to predicate `compare/3`.  For example, `A<B` is desugared to `once(compare(<,A,B))`.  Then libraries can add clauses for compare/3 to support comparisons between their own values.  All other values retain standard value comparison.
-
-I've implied elsewhere that Amalog allows users to define operators.  That feature and how it works should be an explicit part of the spec.  When reading an Amalog file as data, one should be able to specify which operators apply.  That way, one can specify operators for a config file syntax before loading the config file.  This gives sugary pleasantness and lets developers reues Amalog's parser, file loading and macro facility.
-
 
 # Bayesian Programming
 
