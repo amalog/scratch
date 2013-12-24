@@ -50,3 +50,39 @@ which expands into
 The key feature of raw strings is that there’s no escaping inside them.  This lets users include content like source code, regular expressions, HTML, etc. without worrying whether they’ve accidentally triggered an escape.
 
 Macros use raw strings when embedding foreign languages inside Amalog (similar to quasiquotation in other languages).
+
+# Scratch
+
+## Double-quoted text
+
+I like Haskell's overloaded strings.  They've proven quite flexible and productive as the Haskell community has evolved their implementation of text types.  Perhaps it could be done in Amalog by expanding a double quoted string into a predicate call:
+
+```
+foo "hello, world"
+```
+
+becomes
+
+```
+text_term `hello, world` X
+foo X
+```
+
+Developers add clauses to `text_term` to define how raw text is converted into their own term format.  Partial evaluation and simplification reduces the run time cost of backtracking over all possible `text_term` clauses.
+
+
+## End of line text
+
+For short DSLs (like math notation), it would be convenient to have raw strings which extend to the end of a line.  Many natural languages use the [quotation dash](http://en.wikipedia.org/wiki/International_variation_in_quotation_marks#Quotation_dash) for such purposes.  We don't want to require developers to type Unicode characters (`U+2015`), so we could use two adjacent hyphens.
+
+```
+math -- X = 27*Y + 3
+```
+
+which is equivalent to
+
+```
+math `X = 27*Y + 3`
+```
+
+Maybe the benefits aren't substantial enough to justify having this special syntax.  It's worth considering.  An end of line string also needs to consider how end of line comments work.  Should the two be unified somehow?  Semantically an end of line comment and an end of line string are different.  The former has no influence on execution while the latter does.
