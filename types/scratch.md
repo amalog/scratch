@@ -188,3 +188,19 @@ Here's Richard A. O'Keefe's summary:
 >some N is just a Prolog term of arity N.
 
 He also mentions [this LIFE document](http://hassan-ait-kaci.net/pdf/life.pdf).
+
+## Feature Structures
+
+Feature structures are a generalization of first-order terms similar to psi-terms.  See [Unification: A Multidisciplinary Survey](http://www.isi.edu/natural-language/people/unification-knight.pdf) section 7, for details.  However, they don't have a functor and don't do inheritance.  In that sense, they're simpler and very similar to JSON objects.  The impedance match with JSON could be helpful.
+
+Feature structures support both unification and generalization and therefore form a lattice.  Using JSON notation, the unification operator behaves as follows:
+
+```javascript
+  {type: "person", name: "john"}
+⊔ {type: "person", age: 23 }
+⇒ {type:"person", age: 23, name: "john"}
+```
+
+As with all unification, it performs a merge that combines information from both terms while discarding none.
+
+So far, I prefer feature structures as Amalog's terms rather than psi-terms or first-order terms.  Unfortunately, feature structures don't seem to allow multiple features with the same name, so we still require a separate term to represent first class databases.  Or perhaps we could extend feature structures to allow multiple values, thereby reducing the number of different types.
