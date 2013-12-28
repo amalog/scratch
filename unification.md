@@ -5,9 +5,11 @@ _theorem).  However some variations on unification provide selection but might a
 
 # Join and meet
 
-[Join and meet](https://en.wikipedia.org/wiki/Join_and_meet) are binary operators.  A "lattice" supports both operators.  Having just join makes a join-semilattice.  With the latter, you can have [LVars](http://composition.al/blog/2013/09/22/some-example-mvar-ivar-and-lvar-programs-in-haskell/).  Unification is one possible join operation.  Can Amalog provide join as the fundamental operation and have unification of first-order terms be the default?  Users would be free to define their own join operation which is used when calling `=/2` on terms with a specific functor and arity.
+[Join and meet](https://en.wikipedia.org/wiki/Join_and_meet) are binary operators.  A "lattice" supports both operators.  Having just join makes a join-semilattice; just meet, a meet-semilattice.  As best I can tell the choice of which operator is called "meet" and which "join", is arbitrary.  With one of the two, you can have [LVars](http://composition.al/blog/2013/09/22/some-example-mvar-ivar-and-lvar-programs-in-haskell/).  These operators must [satisfy certain properties](http://composition.al/blog/2013/12/24/the-lvar-that-wasnt/).  First order terms with unification (as meet) and generalization (as join) form a lattice (see [Unification: A Multidisciplinary Survey](http://www.isi.edu/natural-language/people/unification-knight.pdf) section 11).
 
-If join is defined as syntactic unification of first-order terms, then meet is naturally defined as anti-unification.
+Can Amalog be defined in terms of meet rather than in terms of unification?  Users can provide their own terms and meet/join definitions and Amalog builds computation on top of it.
+
+
 
 # Unification with Difference Lists
 
