@@ -10,6 +10,29 @@ _theorem).  However some variations on unification provide selection but might a
 Can Amalog be defined in terms of meet rather than in terms of unification?  Users can provide their own terms and meet/join definitions and Amalog builds computation on top of it.
 
 
+# Properties of Unification
+
+According to [Unification: A Multidisciplinary Survey](http://www.isi.edu/natural-language/people/unification-knight.pdf) section 13, unification satisfies the following properties:
+
+  * Unification is monotonic - it adds information but never subtracts
+  * Unification is commutative and associative
+  * Unification is a constraint merging process
+  * Unification is a pattern matching process
+  * Unification is bidirectional - variable bindings may occur in both structures being unified
+  * Unification deals in partially defined structures
+
+According to [The LVar that wasn't](http://composition.al/blog/2013/12/24/the-lvar-that-wasnt/), a join-semilattice (S) satisfies the following properties:
+
+  * For all elements a and b of S, the join of a and b exists
+  * For all elements a, b, and c of S, the following identities hold:
+    * Commutativity: a join b = b join a
+    * Associativity: a join (b join c) = (a join b) join c
+    * Idempotence: a join a = a
+
+I assume these properties must hold for a meet-semilattice too.
+
+I should be easy enough to define quickcheck tests for all the above properties to help me find data structures which Amalog can use as terms.
+
 
 # Unification with Difference Lists
 
