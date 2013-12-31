@@ -65,3 +65,37 @@ Haskell’s comparison operators are great because one can overload them to beha
 It might be cool if all comparisons were just sugar for a deterministic call to predicate `compare/3`.  For example, `A<B` is desugared to `once(compare(<,A,B))`.  Then libraries can add clauses for `compare/3` to support comparisons between their own values.  All other values retain standard value comparison.
 
 I've implied elsewhere that Amalog allows users to define operators.  That feature and how it works should be an explicit part of the spec.  When reading an Amalog file as data, one should be able to specify which operators apply.  That way, one can specify operators for a config file syntax before loading the config file.  This gives sugary pleasantness and lets developers reuse Amalog's parser, file loading and macro facility.
+
+## Undeclared operators
+
+Declaring operators gives us succinct syntax at the usage location.  It also allows one to use arbitrary characters/atoms as operators (for example, `7 days`).  However, one sometimes prefers a one-off operator.  In this context, the syntactic overhead of a declaration outweighs the benefits gained, so it's not done.  When a one-off operator syntax is available, developers use it frequently.  Obeserve how much Haskell code like this exists:
+
+```
+foo = x `bar` y
+```
+
+What if one-off operators were preceded by a backslash.  LaTeX uses this syntax to insert symbols, mostly mathematical operators.  We can leverage LaTeX's mapping from symbol names to Unicode for developers who wish to view the Unicode characters rather than the full, canonical backslash syntax.
+
+For example, declaring and using subset with canonical syntax:
+
+```
+subset A B Subset
+    ...
+
+main
+    say A \subset B
+```
+
+One might configure his editor to display that as:
+
+```
+subset A B Subset
+    ...
+
+main
+    say A ⊂ B
+```
+
+Very few people may configure their editor that way, so that's only minor justification.  The larger justification is a tiny syntax for using any predicate as an operator without declaration.  Macros should be allowed to detect this particular syntax.  That way they can expand it as if it were function sugar.
+
+We could use Haskell's backtick syntax, but backticks seem far too valuable as quotation operators.  Backslash is are enough as an operator.
