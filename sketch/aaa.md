@@ -109,3 +109,9 @@ A weak form of this predicate could be implemented as:
         fail
 
 but another goal can cut away undo's choicepoint preventing it from being executed on backtracking.  I don't think undo/1 be implemented in terms of call_cleanup/2 or `setup_call_catcher_cleanup/4` because we still need a way to schedule code on backtracking, even if we can preserve state across backtracking and cut.
+
+# Code Studies
+
+Programming language design is far too subjective.  I'd love to perform large scale studies on existing Prolog code to see how real world programmers behave.  What are the most popular goals?  What are the most popular variable names? How complex is a typical clause?  How many clauses does a typical predicate have? Are there popular goals which are always called in the same pattern? For example, `member/2` called with a variable first argument and a static list as the second argument.
+
+With data like this, one should be able to discern patterns that should be factored out to libraries or language constructs.
