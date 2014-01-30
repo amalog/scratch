@@ -204,3 +204,5 @@ Feature structures support both unification and generalization and therefore for
 As with all unification, it performs a merge that combines information from both terms while discarding none.
 
 So far, I prefer feature structures as Amalog's terms rather than psi-terms or first-order terms.  Unfortunately, feature structures don't seem to allow multiple features with the same name, so we still require a separate term to represent first class databases.  Or perhaps we could extend feature structures to allow multiple values, thereby reducing the number of different types.
+
+Michael Covington has written a [feature structures library](http://www.ai.uga.edu/mc/gulp/) for SWI Prolog.  It supports most of the operations one would want.  It would be good to play with this library to get a feel for how practical they are in the real world.
