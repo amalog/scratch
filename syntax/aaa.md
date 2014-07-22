@@ -195,3 +195,13 @@ People seem to use sets as a primitive data structure even though they don't kno
 People have problems with the words "and" and "or" confusing which means what.  Perhaps this suggests that it's better to use punctuation like , and ; as Prolog does.
 
 [Natural Programming Project](https://www.cs.cmu.edu/~NatProg/)
+
+
+## Complexity Limits
+
+[Research suggests](http://www.catb.org/esr/writings/taoup/html/ch04s01.html) that there's a sweet spot in software complexity (either in module or function size).  Modules that are too small have high defect density.  Modules that are too large have high defect density.  It's silly to force programmers to write extra noops into a piece of code to make it bigger, but Amalog could enforce an upper bound on module/predicate size.
+
+Other useful limits could be based on [Halstead complexity](http://en.wikipedia.org/wiki/Halstead_complexity_measures) and/or [Cyclomatic complexit](http://en.wikipedia.org/wiki/Cyclomatic_complexity).  If a module or predicate exceeds any of these complexity conditions, Amalog refuses to compile the code.
+
+Perhaps complexity caps are only enforced in production mode.  That way, a developer can freely and quickly explore a problem space without his tools interfering.  However, we don't want "production" code that's ridiculously complex.
+e
