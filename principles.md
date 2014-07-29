@@ -15,3 +15,9 @@ Weight design decisions 10 to 1 in favor of reading code vs writing code.  Devel
 # Principle of Performance
 
 Give runtime performance the lowest priority among all design factors.  Because of fast CPUs and cheap cloud servers, runtime performance is rarely worth the associated development cost.  When performance does matter, code becomes complex and confusing anyway or that component is rewritten in C.  In neither case does the languge's typical semantics matter much.
+
+# Principle of Progress
+
+Don't halt a developer's forward progress for mistakes which can be resolved later.  Software development is a process of experimentation and discovery.  The flow of exploration should not be broken lightly.
+
+Following this principle naively incurs substantial technical debt, whose future payment also halts progress.  Tools must also make it easy for a developer to find and pay this debt when she's ready.
