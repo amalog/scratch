@@ -10,20 +10,20 @@ In my view, modules are a glorified means of facilitating copy and paste.  There
 
 For Prolog variants, the smallest level of code reuse is a clause.  So I should be able to say “there’s a database of code over there; I want these clauses; use them to augment my database like this”.  That suggests the following hooks:
 
-  # convert module name (a term) into a database value
-  # select clauses from that database
-  # transform the clauses (sort of like macro expansion)
-  # assert those clauses in my database
+  1. convert module name (a term) into a database value
+  1. select clauses from that database
+  1. transform the clauses (sort of like macro expansion)
+  1. assert those clauses in my database
 
 Semantically, adding clauses to my database just adds a copy of those clauses.  Compilers might optimize that with copy on write or immutable data structures or something fancy.  Semantically they behave as if the user manually copied the code and pasted it into his database.
 
 Of course, module systems were created to avoid some of the problems of straight copy and paste.  As far as I can tell, the big one that really needs to be addressed is code dependencies.  If I copy a clause which calls other code, I have to be certain to copy that other code transitively.  That might require loading other modules, etc.  Of course, on another level the copy-paste model helps with dependencies.  When importing from a source database, first build that database (recursively processing imports, etc) then from that database, copy the clause we’re importing.  Also copy from that database the goals referenced in the clause.  Because of copy-paste, we know that the necessary clauses are already in the source database.  If not, the source database has a dependency problem which is beyond the scope of module imports to fix.  How does this interact with `no_such_predicate/1`?
 
-A module should also be able to export clauses whose definition isn't entirely complete.  For example module `foo` might have a clause for `bar/1` which calls `baz/2` even though `foo` has no predicate `baz/2`.  `foo` is relying on the importing module to supply that predicate.  This similar to the notion Moose (a Perl library) has for roles.  The exporting module declares which predicates the importer must supply so that it can check at import time that its requirements are met.
+A module should also be able to export clauses whose definition isn't entirely complete.  For example module `foo` might have a clause for `bar/1` which calls `baz/2` even though `foo` has no predicate `baz/2`.  `foo` is relying on the importing module to supply that predicate.  This similar to the notion [Moose](https://metacpan.org/pod/Moose) has for roles.  The exporting module declares which predicates the importer must supply so that it can check at import time that its requirements are met.
 
 It’s worth thinking about autoloading systems here.  Perl, Prolog and others have autoload systems whereby they automatically search for code if you use code that doesn’t yet exist.  These are very helpful for rapid development because one’s not interrupted fiddling around with import statements, etc.  However, when I call `foo/1`, it’s not entirely clear which of hundreds of different `foo/1` predicates I’m referring to.  In practice it almost always works as the developer expected and does help productivity.  It should not be built into the language’s notion of modules, but the language should be powerful enough to allow others to write it.  It’d be nice if calling an autoloaded predicate automatically updated the code’s import statements to make it official.  Many IDEs do that automatically, which is a good balance between rapid prototyping and precision.
 
-Perhaps autoloading is best implemented with a more fundamental mechanism: `no_such_predicate/1`.  This predicate is called when a matching predicate doesn’t exist in that database.  It’s similar in spirit to Smalltalk’s `doesNotUnderstand` method.  Amalog’s prelude could export a `no_such_predicate/1` implementation if one doesn’t already exist.  In development mode, the default could try autoloading.  In production, the default could raise a condition.
+Perhaps autoloading is best implemented with a more fundamental mechanism: `no_such_predicate/1`.  This predicate is called when a matching predicate doesn’t exist in that database.  It’s similar in spirit to Smalltalk’s `doesNotUnderstand` method.  Amalog’s prelude could export a `no_such_predicate/1` implementation if one doesn’t already exist.  In development mode, the default could try autoloading.  In production, the default could signal a condition.
 
 The idea of autoloaders rewriting a file’s import section makes me wonder if imports should be done as facts in the database rather than directives with side effects.  Perhaps when encountering an import fact, the side effects happen but one can also assert an import fact to update that part of the code.  When serializing a database, all import facts are recorded at the top of the file.  One might do the same thing with a single module fact.  It’s just an attribute of a database.  That gets you something like this:
 
@@ -131,7 +131,7 @@ Software projects of any significant scale require specific versions of specific
 
 Because version resolution is just a constraint problem, it seems natural to allow constraints to be arbitrary Amalog rules.  A solution is just the first (or best) solution to those constraints.  There would be sugar for the most common constraints, just as Bundler has `~>` and friends.
 
-There's [some debate](https://groups.google.com/forum/m/#!msg/golang-nuts/sfshThQ_wrA/6QVvQ5GlctEJ) on the Go mailing list about versioning.  Go provides no support for it natively.  In the thread, several people say the proble shouldn't be solved or can't be solved.  The naysayers mostly seem to say, the problem can't be solved in all cases, so why bother solving it for any practical cases.  However, experience with Bundler and friends suggests that it can be solved for nearly all real world use cases.
+There's [some debate](https://groups.google.com/forum/m/#!msg/golang-nuts/sfshThQ_wrA/6QVvQ5GlctEJ) on the Go mailing list about versioning.  Go provides no support for it natively.  In the thread, several people say the problem shouldn't be solved or can't be solved.  The naysayers mostly seem to say, the problem can't be solved in all cases, so why bother solving it for any practical cases.  However, experience with Bundler and friends suggests that it can be solved for nearly all real world use cases.
 
 
 ## Execution
@@ -144,4 +144,4 @@ Having a single entry point (`main` predicate) also makes it easier to walk the 
 
 If possible, use a different naming convention for modules and the packages through which they're distributed.  Hackage is a good example.  The package `network-bitcoin` contains the module `Network.Bitcoin`  This makes it clear when I'm talking about the module and when the package.
 
-Contrast that with CPAN.  Packages and modules have an identical naming convention.  I just wrote a Makefile.PL in which I specificed a requirement on the module `URI::QueryParam` because I thought the file wanted module names.  It actually wanted package names (needing `URI` in this case), but the context confused the two.
+Contrast that with CPAN.  Packages and modules have an identical naming convention.  I just wrote a Makefile.PL in which I specificed a requirement on the module `URI::QueryParam` because I thought the file wanted module names.  It actually wanted package names (needing `URI` in this case), but similar formatting of the two confused me.
