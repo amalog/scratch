@@ -5,8 +5,8 @@ In my view, modules are a glorified means of facilitating copy and paste.  There
     import ‘http://goo.gl/QFPJl3’ [answer/1]
     
     main
-	    answer Answer
-	    say Answer
+        answer Answer
+        say Answer
 
 For Prolog variants, the smallest level of code reuse is a clause.  So I should be able to say “there’s a database of code over there; I want these clauses; use them to augment my database like this”.  That suggests the following hooks:
 
