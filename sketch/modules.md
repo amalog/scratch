@@ -145,3 +145,43 @@ Having a single entry point (`main` predicate) also makes it easier to walk the 
 If possible, use a different naming convention for modules and the packages through which they're distributed.  Hackage is a good example.  The package `network-bitcoin` contains the module `Network.Bitcoin`  This makes it clear when I'm talking about the module and when the package.
 
 Contrast that with CPAN.  Packages and modules have an identical naming convention.  I just wrote a Makefile.PL in which I specificed a requirement on the module `URI::QueryParam` because I thought the file wanted module names.  It actually wanted package names (needing `URI` in this case), but similar formatting of the two confused me.
+
+## Complete Isolation
+
+Now for something completely different.  Above, I mention the value of having each module as a separate database.  However, nearly all the details I described are premised on importing or copying code from one database to another.  Once you do that, they're no longer separate.  What if imports could't happen at all?  What if one could only call a predicate in a second module by specifying the second module's and the name of the predicate.
+
+Go packages work this way, so it can teach us some positives and negatives of the approach.  The function `Println` is in the `fmt` package.  Calling that function in Go looks like this:
+
+```go
+import "fmt"
+...
+fmt.Println("Hello")
+```
+
+It works approximately like this:
+
+  * `import` declaration loads code from a collection of files
+  * `import` declaration creates a single identifier (`fmt`) in the local scope
+  * one calls functions via that identifier
+
+Benefits include:
+
+  * Reading code is fairly pleasant
+  * One is reasonably certain which function is being called
+  * One only needs to remember a short list of package identifiers instead of a long list of function->package mappings
+  * No need to rename imported functions to avoid name collisions
+
+
+Costs include:
+
+  * Minor repetition with `foo.` in front of "foreign" functions
+
+
+Node.js modules also assign a local identifier to each imported module.  Functions are called via that identifier.  For example:
+
+```javascript
+var circle = require('./circle.js');
+console.log('Area is ' + circle.area(4));
+```
+
+Both Go and Node make the mistake of overloading `.` for module derefence and field access.  This means one can't have a local variable with the same name as a module identifier.  I find this a frequent annoyance in Go.  Imagine a module "zoo/cat" yielding `cat` as the module identifier.  My program is obviously working with cats and might want to do something like `_, cat := range cats` but then calling `cat.Foo()` tries to call a method on the variable rather than call a function inside the `cat` module.
