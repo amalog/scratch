@@ -115,3 +115,11 @@ but another goal can cut away undo's choicepoint preventing it from being execut
 Programming language design is far too subjective.  I'd love to perform large scale studies on existing Prolog code to see how real world programmers behave.  What are the most popular goals?  What are the most popular variable names? How complex is a typical clause?  How many clauses does a typical predicate have? Are there popular goals which are always called in the same pattern? For example, `member/2` called with a variable first argument and a static list as the second argument.
 
 With data like this, one should be able to discern patterns that should be factored out to libraries or language constructs.
+
+# fail
+
+Prolog uses "fail" to mean "I was unable to prove your goal".  That word has a perfect alignment with English usage ("fail - be unsuccessful in achieving one's goal").  Unfortunately, the word "fail" has a connotation that something went wrong or something unexpected happened.  In most cases, Prolog failure is more like `return false` in other languages.  Consider how "fail" is handled by `-> ;` or `partition/4`.  SWI-Prolog's even displays "false" when it can't prove a top level goal.
+
+I'd like to reserve "fail" for signaling error conditions.  Or maybe "err" could suffice (used in similar contexts by Go and Perl 6).
+
+Perhaps `no` is a better term to indicate that there is no proof of one's goal.  It has a clear opposite (`yes`).  This also leaves `true` and `false` free for use as boolean values; distinct from proof success-failure values.
