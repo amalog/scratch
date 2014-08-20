@@ -23,7 +23,7 @@ times 27 Y A
 plus A 3 X
 ```
 
-Using a DSL library for math notation also lets all Amalog implementations to share the same math parser and implementation.
+Using a DSL library for math notation also lets all Amalog implementations share the same math parser and implementation.
 
 # Examples
 
@@ -40,7 +40,7 @@ Assume reasonable operator definitions below:
 
 ## Punctuation
 
-Punctuation is highly valuable in programming syntax.  It's easy to type, succinct to read visuallly different from surrounding text.  It also provides a recognizable subset of the characters available.
+Punctuation is highly valuable in programming syntax.  It's easy to type, succinct to read and visuallly different from surrounding text.  It also provides a recognizable subset of the characters available.
 
 Many languages waste punctuation on rarely used operations like bitwise operators.  In a high level language that rarely twiddles bits, I'd much rather use word operators (xor, and, or, negate) for bitwise operations and reserve punctuation operators (^ & | !) for common operations.
 
@@ -98,4 +98,4 @@ main
 
 Very few people may configure their editor that way, so that's only minor justification.  The larger justification is a tiny syntax for using any predicate as an operator without declaration.  Macros should be allowed to detect this particular syntax.  That way they can expand it as if it were function sugar.
 
-We could use Haskell's backtick syntax, but backticks seem far too valuable as quotation operators.  Backslash is are enough as an operator.
+We could use Haskell's backtick syntax, but backticks seem far too valuable as quotation operators.  Backslash is rare enough as an operator.
