@@ -185,3 +185,7 @@ console.log('Area is ' + circle.area(4));
 ```
 
 Both Go and Node make the mistake of overloading `.` for module derefence and field access.  This means one can't have a local variable with the same name as a module identifier.  I find this a frequent annoyance in Go.  Imagine a module "zoo/cat" yielding `cat` as the module identifier.  My program is obviously working with cats and might want to do something like `_, cat := range cats` but then calling `cat.Foo()` tries to call a method on the variable rather than call a function inside the `cat` module.
+
+## Package Manager
+
+It seems like every language has a package manager or some canonical way of downloading and using packages from the web.  [Edward Yang](http://blog.ezyang.com/2014/08/the-fundamental-problem-of-programming-language-package-management/) has some insightful thoughts on the problem of package managers and summarizes various approaches for solving those problems.
