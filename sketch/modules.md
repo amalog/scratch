@@ -148,7 +148,7 @@ Contrast that with CPAN.  Packages and modules have an identical naming conventi
 
 ## Complete Isolation
 
-Now for something completely different.  Above, I mention the value of having each module as a separate database.  However, nearly all the details I described are premised on importing or copying code from one database to another.  Once you do that, they're no longer separate.  What if imports could't happen at all?  What if one could only call a predicate in a second module by specifying the second module's and the name of the predicate.
+Now for something completely different.  Above, I mention the value of having each module as a separate database.  However, nearly all the details I described are premised on importing or copying code from one database to another.  Once you do that, they're no longer separate.  What if imports couldn't happen at all?  What if one could only call a predicate in a second module by specifying the second module and the name of the predicate.
 
 Go packages work this way, so it can teach us some positives and negatives of the approach.  The function `Println` is in the `fmt` package.  Calling that function in Go looks like this:
 
