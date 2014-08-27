@@ -186,6 +186,56 @@ console.log('Area is ' + circle.area(4));
 
 Both Go and Node make the mistake of overloading `.` for module derefence and field access.  This means one can't have a local variable with the same name as a module identifier.  I find this a frequent annoyance in Go.  Imagine a module "zoo/cat" yielding `cat` as the module identifier.  My program is obviously working with cats and might want to do something like `_, cat := range cats` but then calling `cat.Foo()` tries to call a method on the variable rather than call a function inside the `cat` module.
 
+
+### Imports as Macros
+
+If we have completely isolated modules and a library wanted to implement something that looked like imports, it could create a local predicate which invokes a predicate in another module.  To make up a syntax:
+
+```
+import module_name [hello/0,bye/1]
+```
+
+could expand into
+
+```
+import module_name
+
+hello
+    module_name:hello
+
+bye X
+    module_name:bye X
+```
+
+### Module Identifiers as Variables
+
+The Node example (above) shows that modules (or a reference to them) are stored in normal variables.  Dart appears to do something similar.  Dart's [deferred loading](https://www.dartlang.org/docs/spec/deferred-loading.html) mechanism suggests why that might be a good approach.
+
+Let's make the following assumptions for Amalog:
+
+  * modules are just database values
+  * module identifiers are just normal variables
+
+Then we get deferred module loading through standard deferred value mechanisms on variables.  For example, the Prolog library [spawn](http://www.swi-prolog.org/pack/list?p=spawn) allows one to perform a computation lazily or in the background.  The program only blocks when that computation's value is needed.  All of this machinery is hidden behind a variable which represents the value.
+
+That might give us Amalog code like this:
+
+```
+import fancy_library Fancy
+
+main
+    Fancy:hello "world"
+```
+
+If `Fancy` is a singleton variable, then normal warnings about singletons tell us when a library is not being used.  One could invoke `import fancy_library _` to indicate that the package is being loaded for its side effects.
+
+
 ## Package Manager
 
 It seems like every language has a package manager or some canonical way of downloading and using packages from the web.  [Edward Yang](http://blog.ezyang.com/2014/08/the-fundamental-problem-of-programming-language-package-management/) has some insightful thoughts on the problem of package managers and summarizes various approaches for solving those problems.
+
+## Try to be Declarative
+
+Most of my proposals above read too much like imperative code: "do this, do that, side effect here, etc"  I really want something more declarative.  Saying `use foo` instead of `import foo` would make it look more declarative but the semantics still seem too imperative to me.
+
+What are the relations at play with interconnected modules?  How can those relations be declared?  How might we want to query those relations?
