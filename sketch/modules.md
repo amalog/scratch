@@ -168,7 +168,7 @@ Benefits include:
 
   * Reading code is fairly pleasant
   * One is reasonably certain which function is being called
-  * One only needs to remember a short list of package identifiers instead of a long list of function->package mappings
+  * One only needs to remember a short list of package identifiers instead of a long list of function-package tuples
   * No need to rename imported functions to avoid name collisions
 
 
@@ -184,7 +184,7 @@ var circle = require('./circle.js');
 console.log('Area is ' + circle.area(4));
 ```
 
-Both Go and Node make the mistake of overloading `.` for module derefence and field access.  This means one can't have a local variable with the same name as a module identifier.  I find this a frequent annoyance in Go.  Imagine a module "zoo/cat" yielding `cat` as the module identifier.  My program is obviously working with cats and might want to do something like `_, cat := range cats` but then calling `cat.Foo()` tries to call a method on the variable rather than call a function inside the `cat` module.
+Both Go and Node make the mistake of overloading `.` for module dereference and field access.  This means trouble when on wants a local variable with the same name as a module identifier.  I find this a frequent annoyance in Go.  Imagine a module "zoo/cat" yielding `cat` as the module identifier.  My program is obviously working with cats and might want to do something like `_, cat := range cats` but then calling `cat.Foo()` tries to call a method on the variable rather than call a function inside the `cat` module.
 
 
 ### Imports as Macros
