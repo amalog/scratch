@@ -186,6 +186,11 @@ console.log('Area is ' + circle.area(4));
 
 Both Go and Node make the mistake of overloading `.` for module dereference and field access.  This means trouble when on wants a local variable with the same name as a module identifier.  I find this a frequent annoyance in Go.  Imagine a module "zoo/cat" yielding `cat` as the module identifier.  My program is obviously working with cats and might want to do something like `_, cat := range cats` but then calling `cat.Foo()` tries to call a method on the variable rather than call a function inside the `cat` module.
 
+### Modules as Interfaces
+
+The public predicates of a module define an interface.  For example, a module named `set` implementing a set data structure might have predicates `insert/3` and `remove/3`.  One should be able to swap in a new set implementation (maybe `hset` using hashes) by changing just the import statement.  This is possible both when modules import symbols and when modules are referenced by an identifier.  However, experience suggests that importing symbols often leads to defensive API design in which exported symbols are given unlikely prefixes to avoid name collisions.  For example, we might end up with `set_insert/3` and `set_remove/3`.  When I switch to the `hset` implementation, I have to rename those to `hset_insert/3` and `hset_remove/3`.
+
+In languages that identify modules by reference, this convention doesn't arise.  Library authors know that their users are unable to create name colisions.  Any attempt to write code like `hset.hset_insert/3` immediately makes one cringe, so library authors don't do it.  That makes it easy to swap out a new implementation by just changing the import statement.
 
 ### Imports as Macros
 
