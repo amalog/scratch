@@ -99,3 +99,26 @@ It would be helpful to convert those structured comments into assertions at deve
 ## Documentation Products
 
 It’s often helpful to render code comments into HTML or LaTeX documentation.  By including all comments in a program’s data structure, these tools become very easy to write: read the program, generate output for each comment term.  Internal and external comments can be inferred by their location relative to other values (module comments vs rest-of-line comments).
+
+# Scratch
+
+## Why have comment syntax at all?
+
+Is there a good reason to have separate comments syntax?  Why not just have a convention that the predicate `#` is a noop intended for comments?  It could be a macro that removes the content entirely during compile time.  I suppose that requires wrapping the commment text in a string like:
+
+    #` this is the comment text`
+
+It seems like this would be simpler than having special parsing code for comments.
+
+That leaves us no obvious mechanism for end-of-line comments.  I suppose the first argument to the noop predicate could be the goal to call, as suggested above.
+
+    # say hello `hello is a pleasant greeting`
+
+That's roughly equivalent to Prolog like this:
+
+    macro(goal, #(_Comment), true).
+    macro(goal, #(Goal,_Comment), call(Goal)).
+    macro(goal, #(Goal,Arg0,_Comment), call(Goal,Arg0)).
+    macro(goal, #(Goal,Arg0,Arg1,_Comment), call(Goal,Arg0,Arg1)).
+
+A good partial evaluator will completely remove these call/N constructs so there's no runtime overhead for writing comments.
