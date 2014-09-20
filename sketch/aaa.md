@@ -133,3 +133,9 @@ Amalog's macro mechanism should be able to describe the transformation from recu
 One idea to consider is using [linear logic programming](www.infoq.com/presentations/linear-logic-programming) as a language for describing macros.  Imagine a predicate definition described in terms of "resources".  Linear logic rules consume those resources and produce new ones.  When applying rules reaches a fixed point, transform the remaining resources back into a predicate definition.
 
 Users probably don't write their macros directly in a linear logic language.  They typically write something that's closer to `term_expansion/2` but we expand that into the lower-level linear logic formalism for implementation.  Users could write the low-level code, if they really wanted/needed to.
+
+# Interclausal Logic Variables
+
+The [paper by this name](http://arxiv.org/pdf/1406.1393v1.pdf) suggests a simple semantics and implementation for global logic variables in a Prolog.  This idiea fits very well with some of my thoughts about referencing third party libraries with a variable name.  The paper also shows some interest problems that can be solved readily with this idea.
+
+It seems like a powerful primitive to add to Amalog.  Unlike many features, it seems fairly fundamental.  However, the paper suggests one implementation in terms of a source transformation.  So maybe this can/should be implemented as a library.
