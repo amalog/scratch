@@ -123,3 +123,13 @@ Prolog uses "fail" to mean "I was unable to prove your goal".  That word has a p
 I'd like to reserve "fail" for signaling error conditions.  Or maybe "err" could suffice (used in similar contexts by Go and Perl 6).
 
 Perhaps `no` is a better term to indicate that there is no proof of one's goal.  It has a clear opposite (`yes`).  This also leaves `true` and `false` free for use as boolean values; distinct from proof success-failure values.
+
+# Universality and Expressiveness of fold
+
+The paper of this same names suggests a mechanized way to transform recursively defined functions (or predicates) into equivalents defined with foldr or foldl.   Once defined with fold, these predicates can be subjected to fusion and other transformations valuable to a partial evaluator.
+
+Amalog's macro mechanism should be able to describe the transformation from recursion into fold (transformation across clauses of a predicate).
+
+One idea to consider is using [linear logic programming](www.infoq.com/presentations/linear-logic-programming) as a language for describing macros.  Imagine a predicate definition described in terms of "resources".  Linear logic rules consume those resources and produce new ones.  When applying rules reaches a fixed point, transform the remaining resources back into a predicate definition.
+
+Users probably don't write their macros directly in a linear logic language.  They typically write something that's closer to `term_expansion/2` but we expand that into the lower-level linear logic formalism for implementation.  Users could write the low-level code, if they really wanted/needed to.
