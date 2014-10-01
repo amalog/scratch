@@ -53,3 +53,11 @@ Pulling out his trusty cell phone, he says, "I guess I'll call dad and see if he
 "Grandpa? Which way should I go?", repeating the same descriptin he gave his father.  "Oh, I remember that route.  Back in '03 your grandmother and I ended up at that very same spot.  Now in those days, a three-headed COBOL lived to the left and that way was very unsafe.  I don't know what lives there now, but the right hand path smooths out a little further.  That's the way to go."
 
 The son continues on his way through the forest, discovers a delicious patch of berries and calmly delivers some of the fruit to his father and grandfather who are still waiting patiently where he left them.
+
+# Debugger
+
+SWI-Prolog allows the debugger to run backwards in time.  When one encounters a failure, one can retry and pretend the failure didn't happen.  [Elm reactor](http://elm-lang.org/blog/Introducing-Elm-Reactor.elm) takes this even further by giving you a little time slider.  You can pause and rewind the debugger.
+
+I really want this kind of functionality in an Amalog debugger.  I use it frequently when debugging SWI-Prolog programs.  Make sure the language allows for this sort of tooling.
+
+I also want to have declarative debugging like Mercury has.  I haven't used that very much, but it seems like a specific application of a reversible debugger.  The reversing step is simply executed by a machine instead of with user interaction.
