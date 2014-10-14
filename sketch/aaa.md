@@ -145,3 +145,15 @@ Users probably don't write their macros directly in a linear logic language.  Th
 The [paper by this name](http://arxiv.org/pdf/1406.1393v1.pdf) suggests a simple semantics and implementation for global logic variables in a Prolog.  This idiea fits very well with some of my thoughts about referencing third party libraries with a variable name.  The paper also shows some interest problems that can be solved readily with this idea.
 
 It seems like a powerful primitive to add to Amalog.  Unlike many features, it seems fairly fundamental.  However, the paper suggests one implementation in terms of a source transformation.  So maybe this can/should be implemented as a library.
+
+# Universal Function Call Syntax
+
+The D language has [universal function call syntax](http://ddili.org/ders/d.en/ufcs.html) which converts `foo.bar` into `bar(foo)`.  It's pure syntactic sugar but seems pretty helpful in certain circumstances.  For example,
+
+    writeln(evens(divide(multiply(values, 10), 3)))
+
+can be rewritten as
+
+    values.multiply(10).divide(3).evens.writeln
+
+That keeps functions and their arguments nearby (ie `divide(10)` instead of `divide(..., 10)`).  It also makes the computation read left to right in the same order in which evaluation occurs. The latter is sort of like inline DCG syntax since it operates on an implicit state.
