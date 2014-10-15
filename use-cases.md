@@ -19,7 +19,7 @@ Not all serialization formats are general purpose.  For example:
 
 ## Encoding
 
-Encoding describes the relationship between a pure byte sequence and a specialized byte sequence.  Specialized formats include base64, URI encoding, base32, etc.
+Encoding describes the relationship between a pure byte sequence and a specialized byte sequence.  Specialized formats include base64, URI encoding, gzip, etc.
 
 ## HTTP client and server
 
