@@ -244,3 +244,32 @@ It seems like every language has a package manager or some canonical way of down
 Most of my proposals above read too much like imperative code: "do this, do that, side effect here, etc"  I really want something more declarative.  Saying `use foo` instead of `import foo` would make it look more declarative but the semantics still seem too imperative to me.
 
 What are the relations at play with interconnected modules?  How can those relations be declared?  How might we want to query those relations?
+
+## Ditch Modules Completely
+
+This idea [has been articulated](http://erlang.org/pipermail/erlang-questions/2011-May/058768.html) by Joe Armstrong and [discussed at length](http://lambda-the-ultimate.org/node/5079).  It has a certain appeal.  Of course, the highest level of code reuse in Amalog would be the clause, not the predicate.
+
+Give this some thought.  On initial inspection it sounds like a nice simplification.  Do we lose anything by simplifying this far?
+
+The most obvious "key-value database of all functions" is the web.  Keys are URLs; values are their content.
+
+Similar ideas in this space are:
+
+* [open wiki-like code repository](http://lambda-the-ultimate.org/node/3744)
+* [escape from the maze of twisty classes](http://lambda-the-ultimate.org/node/4493)
+
+### Semantic Web of Code
+
+Imagine the semantic web.  It includes billions of statements.  Some of them are true, others are blatantly false, many of them contradict each other.  To get something useful, I accept a subset of them into my database.  Then I can query these facts and derive conclusions.
+
+This idea of a language without modules is similar.  There would be thousands of clauses, each claiming to be a useful rule.  I choose a subset of those rules and add some rules of my own to create a program.
+
+We also need a something like semantic web schemas so that clauses can agree on what they're talking about.  For example, a "person" in the semantic web could be a "http://xmlns.com/foaf/0.1/Person" or a "http://schema.org/Person".  It's useful for facts to agree on which "person" they're talking about.
+
+So perhaps a "stack" (named with a URL like 'http://amalog.org/data/stack') has certain semantics and data layout.  Clauses wishing to implement or build on those semantics work with terms whose functor is 'http://amalog.org/data/stack'.  Of course nobody wants to read or type those URLs so perhaps developers specify a short identifier which dereferences to the full URL (maybe 'data:stack', in this case).
+
+It's important that a compiler/interpreter be able to fetch all dependencies of a clause that we call.  We must be certain that we have all the code we need for execution.
+
+Privacy can be addressed through naming conventions.  Anyone can use clauses they find in the wild.  If the name suggests privacy (leading underscore?) the original author reserves the right to remove/modify/desecrate that clause at any point.
+
+How should clauses be referenced?  I don't really like URLs for this (even with shortened identifiers) because I still have to decide what the name is.  Perhaps some sort of content-addressable storage in which the clause's code dictates the name.  Then I can write a clause or two and toss them into the pile.  As with other content addressable storage, we need a way to point at a root node from which all other pieces can be found.  I just publish a name (which points to a content address) if I want people to conveniently use the thing I made.
