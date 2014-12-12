@@ -1,0 +1,92 @@
+main
+    handle err
+    |
+        csv "secondary-notes.csv"
+        munge
+        csv "secondary-munged.csv"
+
+
+err fail(pred: (fico_delta old(fico_trend: Trend)))
+    die (str `What kind of trend is $Trend`)
+err fail(pred: (match Rx Txt _))
+    die (str `Regular expression "$Rx" didn't match "$Txt"`)
+err fail(pred: (diligent Old New))
+    die (str `Unexpected diligent combo: $Old $New`)
+
+
+# relates Lending Club column name to nice, internal names
+col "Status" status
+col "DaysSinceLastPayment" since_pay
+col "FICO End Range" fico_end_range
+col "CreditScoreTrend" fico_trend
+col "Loan Class" loan_class
+col "NeverLate" never_late
+col "Loan Maturity" term
+col "Remaining Payments" remaining_payments
+col Name Name
+    # otherwise, leave name the same
+
+# define the relation between a row in the original CSV file
+# and a row in the new CSV file
+munge Old New
+    # fields that remain identical
+    Old.par_value = New.par_value
+
+    # fields that are different
+    past_due Old New
+    fico Old New
+    fico_delta Old New
+    subgrade Old New
+    age Old New
+    diligent Old New
+
+
+past_due old(status: "Issued") new(past_due: 0)
+past_due old(status: "Current") new(past_due: 0)
+past_due old(since_pay: "null") new(past_due: 0)
+past_due old(since_pay: SincePay) new(past_due: PastDue)
+    |
+        minus SincePay 30
+        at_least 0
+        PastDue
+
+
+fico old(fico_end_range: "499-") new(fico: 499)
+fico Old New
+    |
+        arg fico_end_range Old
+        match (rx `^\d+-(\d*)$`)
+        arg captures
+        arg 1
+        New.fico
+
+
+fico_delta old(fico_trend: "UP") new(fico_delta: 1)
+fico_delta old(fico_trend: "FLAT") new(fico_delta: 0)
+fico_delta old(fico_trend: "DOWN") new(fico_delta: -1)
+
+
+subgrade Old New
+    match (rx `^([A-G])([1-5])$`) Old.loan_class Match
+    grade Match.captures.1 Grade
+    Tier = Match.captures.2
+    New.subgrade = (math `Grade * 5 + Tier`)
+
+
+grade "A" 0
+grade "B" 1
+grade "C" 2
+grade "D" 3
+grade "E" 4
+grade "F" 5
+grade "G" 6
+
+
+age old(term: Term remaining_payments: Left) new(age: Age)
+    Age = (math `(Term - Left)/Term`)
+
+
+diligent old(never_late: true) new(past_due: 0 diligent: 1)
+diligent old(never_late: false) new(past_due: 0 diligent: 0)
+diligent _ new(past_due: Past diligent: -1)
+    math `Past > 0`
