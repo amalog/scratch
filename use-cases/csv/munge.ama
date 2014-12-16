@@ -11,7 +11,7 @@ err (fail (fico_delta Old _))
     die (str `Unexpected FICO trend: $Trend`)
 err (fail (match Rx Txt _))
     die (str `Regular expression "$Rx" didn't match "$Txt"`)
-err fail( diligent(Old New) )
+err (fail diligent(Old New))
     die (str `Unexpected diligent combo: $Old $New`)
 
 
