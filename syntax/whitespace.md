@@ -47,3 +47,19 @@ This technique:
   * removes the final use for `,` which frees it to be used elsewhere
 
 I need to develop a reasonable canonicalization guideline to determine when to use multiline arguments and when to use single line arguments.  Otherwise, we break isomorphism.
+
+# Readable Lisp S-expressions
+
+The [Readable Lisp S-expressions project](http://readable.sourceforge.net/) has developed a decent syntax for s-expressions.  It uses indentation for most nesting, allows parens for local nesting, supports infix operators without precedence.
+
+Indentation and parens work about like I've described them above.
+
+Infix notation converts this
+
+    {a + {b * c}}
+
+into
+
+    (+ a (* b c))
+
+The only missing feature is named arguments for terms.
