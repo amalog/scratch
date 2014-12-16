@@ -10,7 +10,7 @@ This section expounds on Amalog features seen in the example.
 
 Makes a predicate (`err` in this case) the active condition handler for the current lexical scope.  If code executed in this dynamic scope signals a condition, `err` gets a chance to respond.
 
-## |
+## pipe
 
 Like a DCG.  It creates a pipeline of predicates.
 

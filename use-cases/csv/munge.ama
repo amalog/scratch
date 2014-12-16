@@ -1,6 +1,6 @@
 main
     handle err
-    |
+    pipe
         csv "secondary-notes.csv"
         munge
         csv "secondary-munged.csv"
@@ -46,7 +46,7 @@ past_due (old status: "Issued") (new past_due: 0)
 past_due (old status: "Current") (new past_due: 0)
 past_due (old since_pay: "null") (new past_due: 0)
 past_due (old since_pay: SincePay) (new past_due: PastDue)
-    |
+    pipe
         minus SincePay 30
         at_least 0
         PastDue
@@ -54,7 +54,7 @@ past_due (old since_pay: SincePay) (new past_due: PastDue)
 
 fico (old fico_end_range: "499-") (new fico: 499)
 fico Old New
-    |
+    pipe
         arg fico_end_range Old
         match (rx `^\d+-(\d*)$`)
         arg captures
