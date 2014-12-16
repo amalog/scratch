@@ -20,6 +20,8 @@ If the final predicate is a variable (like `PastDue`), the pipeline's output is 
 
 All other predicates are called with two extra arguments: the input from the previous stage and the output for the next stage.
 
+The `csv` predicate knows its generating rows from a file if its second argument is unbound.  It knows its printing rows to a file if its second argument is bound.
+
 ## arg
 
 Like arg/3 in Prolog.  It relates a named property, a term and that property's value.
