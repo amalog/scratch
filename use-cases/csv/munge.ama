@@ -6,11 +6,12 @@ main
         csv "secondary-munged.csv"
 
 
-err fail(pred: (fico_delta old(fico_trend: Trend)))
-    die (str `What kind of trend is $Trend`)
-err fail(pred: (match Rx Txt _))
+err (fail (fico_delta Old _))
+    Trend = Old.fico_trend
+    die (str `Unexpected FICO trend: $Trend`)
+err (fail (match Rx Txt _))
     die (str `Regular expression "$Rx" didn't match "$Txt"`)
-err fail(pred: (diligent Old New))
+err fail( diligent(Old New) )
     die (str `Unexpected diligent combo: $Old $New`)
 
 
@@ -41,17 +42,17 @@ munge Old New
     diligent Old New
 
 
-past_due old(status: "Issued") new(past_due: 0)
-past_due old(status: "Current") new(past_due: 0)
-past_due old(since_pay: "null") new(past_due: 0)
-past_due old(since_pay: SincePay) new(past_due: PastDue)
+past_due (old status: "Issued") (new past_due: 0)
+past_due (old status: "Current") (new past_due: 0)
+past_due (old since_pay: "null") (new past_due: 0)
+past_due (old since_pay: SincePay) (new past_due: PastDue)
     |
         minus SincePay 30
         at_least 0
         PastDue
 
 
-fico old(fico_end_range: "499-") new(fico: 499)
+fico (old fico_end_range: "499-") (new fico: 499)
 fico Old New
     |
         arg fico_end_range Old
@@ -61,9 +62,9 @@ fico Old New
         New.fico
 
 
-fico_delta old(fico_trend: "UP") new(fico_delta: 1)
-fico_delta old(fico_trend: "FLAT") new(fico_delta: 0)
-fico_delta old(fico_trend: "DOWN") new(fico_delta: -1)
+fico_delta (old fico_trend: "UP") (new fico_delta: 1)
+fico_delta (old fico_trend: "FLAT") (new fico_delta: 0)
+fico_delta (old fico_trend: "DOWN") (new fico_delta: -1)
 
 
 subgrade Old New
@@ -82,11 +83,11 @@ grade "F" 5
 grade "G" 6
 
 
-age old(term: Term remaining_payments: Left) new(age: Age)
+age (old term: Term remaining_payments: Left) (new age: Age)
     Age = (math `(Term - Left)/Term`)
 
 
-diligent old(never_late: true) new(past_due: 0 diligent: 1)
-diligent old(never_late: false) new(past_due: 0 diligent: 0)
-diligent _ new(past_due: Past diligent: -1)
+diligent (old never_late: true) (new past_due: 0 diligent: 1)
+diligent (old never_late: false) (new past_due: 0 diligent: 0)
+diligent _Old (new past_due: Past diligent: -1)
     math `Past > 0`
