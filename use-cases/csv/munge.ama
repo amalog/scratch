@@ -1,7 +1,7 @@
 main
     handle err
     pipe
-        csv "secondary-notes.csv"
+        csv "secondary-notes.csv" columns: col
         munge
         csv "secondary-munged.csv"
 
