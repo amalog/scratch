@@ -1,9 +1,9 @@
 main
     handle err
     pipe_all
-        csv "secondary-notes.csv" columns: col
+        csv_read "secondary-notes.csv" columns: col
         munge
-        csv "secondary-munged.csv"
+        csv_write "secondary-munged.csv"
 
 
 err (fail (fico_delta Old _))

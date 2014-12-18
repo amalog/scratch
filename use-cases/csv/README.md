@@ -20,13 +20,11 @@ The final predicate is called with a single, extra argument whose value is the o
 
 All other predicates are called with two extra arguments: the input from the previous stage (first) and the output for the next stage (second).
 
-The `csv` predicate knows it's generating rows from a file if its second argument is unbound.  It knows it's printing rows to a file if its second argument is bound.
-
 `pipe` processes only the first successful result of the pipeline.  To run a failure driven loop over all solutions, see `pipe_all`.
 
 ## pipe_all
 
-Just like `pipe` but it runs a failure driven loop across all solutions.  In this example, `csv` iterates rows on backtracking.  We want to process all rows in the file so we must use `pipe_all` instead of `pipe`.
+Just like `pipe` but it runs a failure driven loop across all solutions.  In this example, `csv_read` iterates rows on backtracking.  We want to process all rows in the file so we must use `pipe_all` instead of `pipe`.
 
 The predicate itself is deterministic.  This is conceptually similar to Prolog's `findall/3` predicate.
 
