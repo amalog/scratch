@@ -16,9 +16,9 @@ Like a DCG.  It creates a pipeline of predicates.
 
 The first predicate is called with a single, extra argument.  The predicate should bind its output to this argument.
 
-If the final predicate is a variable (like `PastDue`), the pipeline's output is bound to that variable.  Otherwise (like `csv "secondary-munged.csv"`), the final predicate is called with a single argument containing the pipeline's output.
+The final predicate is called with a single, extra argument whose value is the output of the pipeline's penultimate stage.
 
-All other predicates are called with two extra arguments: the input from the previous stage and the output for the next stage.
+All other predicates are called with two extra arguments: the input from the previous stage (first) and the output for the next stage (second).
 
 The `csv` predicate knows it's generating rows from a file if its second argument is unbound.  It knows it's printing rows to a file if its second argument is bound.
 

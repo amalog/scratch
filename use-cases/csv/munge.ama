@@ -50,7 +50,7 @@ past_due (old since_pay: SincePay) (new past_due: PastDue)
     pipe
         minus SincePay 30
         at_least 0
-        PastDue
+        = PastDue
 
 
 fico (old fico_end_range: "499-") (new fico: 499)
@@ -60,7 +60,7 @@ fico Old New
         match (rx `^\d+-(\d*)$`)
         arg captures
         arg 1
-        New.fico
+        = New.fico
 
 
 fico_delta (old fico_trend: "UP") (new fico_delta: 1)
