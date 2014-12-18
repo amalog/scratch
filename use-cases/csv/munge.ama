@@ -1,6 +1,6 @@
 main
     handle err
-    pipe
+    pipe_all
         csv "secondary-notes.csv" columns: col
         munge
         csv "secondary-munged.csv"
