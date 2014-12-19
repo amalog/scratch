@@ -180,10 +180,10 @@ Had these projects started with cleanly factored code bases, much of the social 
 
 ## Proposal
 
-In Amalog, each file describes a single predicate that's intended for use outside that file.  A file may contain other predicates, but they must be named with a trailing underscore to indicate that they are lemmas intended only for consumption within the file.
+In Amalog, each file describes a single predicate that's intended for use outside that file.  This is the first predicate defined in the file.  A file may contain other predicates (following the first one), but they are lemmas intended only for consumption within the file.
 
 If Amalog ends up using universally unique identifiers for predicates, the public predicate is placed under a user's chosen namespace.  The lemmas are placed in a random, per-file namespace (probably named based on the relative file path within the project).  Of course, these visibility constraints are only convention.  If someone knows the full identifier for a lemma, he can call it.  By convention, however, the lemma may change behavior or name.  Static analysis tools can easily see when someone calls a lemma that belongs to someone else and give warnings.
 
-Attempting to define two public predicates in a single file is a syntax error.  If two predicates want to share a lemma, that lemma must be placed in its own file.  It doesn't have to be announced for public consumption but it can no longer live in the original file as a lemma.
+If two predicates want to share a lemma, that lemma must be placed in its own file.  It doesn't have to be announced for public consumption but it can no longer live in the original file as a lemma.
 
 Most text editors have excellent support for rapidly locating and switching between files.  That support is typically better than is support for locating and switching between positions in a single file.  This should make it easier to quickly navigate to a predicate definition without secondary tools (like ctags, etc).
