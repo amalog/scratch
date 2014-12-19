@@ -162,13 +162,13 @@ That keeps functions and their arguments nearby (ie `divide(10)` instead of `div
 
 ## Conceptual background
 
-A clause is the smallest unit of code reuse in a logic programming language.  The smallest unit of API is the predicate.  A developer crafts a new predicate by describing the relationship between his predicate and these other predicates.
+A clause is the smallest unit of code reuse in a logic programming language.  The smallest unit of API is the predicate.  A developer crafts a new predicate by describing the relationship between his predicate and some other predicates.
 
-Ideally, he'd have a window showing the source code of his predicate.  He'd also have windows showing the code/documentation for the other predicates in the relation.
+Ideally, while developing, he'd have a window displaying the source code of his own predicate.  He'd also have windows showing the code/documentation for other predicates used in the relation.
 
 Unfortunately, tradition stores many predicates in a single file.  A developer must therefore open multiple views on that file, scrolling to show just the piece he cares about.  Auxiliary predicates, defined in the same file, muddle the situation further.  Are these predicates intended for public consumption?  Or are they just "lemmas" upon which the public predicate is being built.
 
-Haskell tries to address the lemma situation by allowing the developer to declare local functions via `where` syntax.  That makes it clear which functions are lemmas and which are "theorems", so to speak.
+Haskell tries to address the lemma situation by allowing developers to declare local functions via `where` syntax.  That makes it clear which functions are lemmas and which are "theorems", so to speak.
 
 ## Version control background
 
@@ -176,14 +176,14 @@ Storing multiple predicates in a single file also brings version control headach
 
 On projects like the Linux kernel or Bitcoin Core, splitting a single massive file into smaller, more manageable, cleaner pieces becomes [socially contentious](http://sourceforge.net/p/bitcoin/mailman/message/33156121/).  That account describes how it even discourages contributors from working on the code.
 
-Had these projects started with cleanly factored code bases, much of the social cost of version control would dissipate.
+Had these projects started with cleanly factored code bases, much of the social cost of version control would dissipate.  Perhaps encouraging one predicate per file will encourage cleanly factored code bases?  If a predicate is to be used externally, it must stand on its own, in its own file.
 
 ## Proposal
 
 In Amalog, each file describes a single predicate that's intended for use outside that file.  A file may contain other predicates, but they must be named with a trailing underscore to indicate that they are lemmas intended only for consumption within the file.
 
-If Amalog ends up using universally unique identifiers for predicates, the public predicate is placed under the public namespace.  The lemmas are placed in a random, per-file namespace.  Of course, these visibility constraints are only convention.  If someone knows the full identifier for a lemma, he can call it.  By convention, however, the lemma may change behavior or name.
+If Amalog ends up using universally unique identifiers for predicates, the public predicate is placed under a user's chosen namespace.  The lemmas are placed in a random, per-file namespace (probably named based on the relative file path within the project).  Of course, these visibility constraints are only convention.  If someone knows the full identifier for a lemma, he can call it.  By convention, however, the lemma may change behavior or name.  Static analysis tools can easily see when someone calls a lemma that belongs to someone else and give warnings.
 
 Attempting to define two public predicates in a single file is a syntax error.  If two predicates want to share a lemma, that lemma must be placed in its own file.  It doesn't have to be announced for public consumption but it can no longer live in the original file as a lemma.
 
-Most text editors have excellent support for rapidly locating and switching between files.  This support is typically better than is support for locating and switching between positions in a single file.  This should make it easier to quickly navigate to a predicate definition without secondary tools (like ctags, etc).
+Most text editors have excellent support for rapidly locating and switching between files.  That support is typically better than is support for locating and switching between positions in a single file.  This should make it easier to quickly navigate to a predicate definition without secondary tools (like ctags, etc).
