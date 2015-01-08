@@ -250,6 +250,10 @@ If `Fancy` is a singleton variable, then normal warnings about singletons tell u
 
 It seems like every language has a package manager or some canonical way of downloading and using packages from the web.  [Edward Yang](http://blog.ezyang.com/2014/08/the-fundamental-problem-of-programming-language-package-management/) has some insightful thoughts on the problem of package managers and summarizes various approaches for solving those problems.
 
+A package ecosystem can be centralized (like Perl's CPAN) or decentralized (like Go).  Centralized systems make it easy to search for modules but cause unfortunate naming conflicts at scale (Perl has lengthy package names to avoid name collisions).  Distributed systems avoid name collisions but make it harder to find and index packages.  A package search engine must implement a crawler to locate available packages.
+
+By distributing the package library, one is subject to broken links or missing packages.  With a centralized repository, you can have things like [BackPAN](http://backpan.perl.org/) which retain all module history, even when authors delete the original content.
+
 ## Try to be Declarative
 
 Most of my proposals above read too much like imperative code: "do this, do that, side effect here, etc"  I really want something more declarative.  Saying `use foo` instead of `import foo` would make it look more declarative but the semantics still seem too imperative to me.
