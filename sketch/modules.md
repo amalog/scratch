@@ -184,6 +184,17 @@ var circle = require('./circle.js');
 console.log('Area is ' + circle.area(4));
 ```
 
+Erlang allows one to import functions from a module, but best practice  [discourages it](http://www.erlang.se/doc/programming_rules.shtml#HDR26):
+
+> Don't use -import, using it makes the code harder to read since you cannot directly see in what module a function is defined.
+
+So Erlang ends up looking like:
+
+```erlang
+hello() ->
+    io:format("Hello, world!~n").
+```
+
 Both Go and Node make the mistake of overloading `.` for module dereference and field access.  This means trouble when on wants a local variable with the same name as a module identifier.  I find this a frequent annoyance in Go.  Imagine a module "zoo/cat" yielding `cat` as the module identifier.  My program is obviously working with cats and might want to do something like `_, cat := range cats` but then calling `cat.Foo()` tries to call a method on the variable rather than call a function inside the `cat` module.
 
 ### Modules as Interfaces
