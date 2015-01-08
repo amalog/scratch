@@ -3,7 +3,7 @@
 In my view, modules are a glorified means of facilitating copy and paste.  There’s useful code somewhere in the world and I want to use parts of it in my project.  For example, instead of visiting http://goo.gl/QFPJl3 then copying all clauses from `answer/1` then pasting them into my code, I should be able to just write
 
     import ‘http://goo.gl/QFPJl3’ [answer/1]
-    
+
     main
         answer Answer
         say Answer
@@ -30,12 +30,12 @@ The idea of autoloaders rewriting a file’s import section makes me wonder if i
     module foo [bar/1, baz/2]
     import something [stuff/2]
     import another [thing_1/0, thing_2/0]
-    
+
 That also makes me wonder if a module’s export list should be recorded as `public/1` facts like
 
     public bar/1
     public baz/2
-    
+
 At this point, we end up with too many reserved fact names and should probably consolidate into a single `meta/N` fact to address them.
 
     meta module foo
@@ -70,7 +70,7 @@ When thinking about the copy-paste approach to modules, be sure to think about i
 It seems that importing a module is really just a way to call a predicate in the imported module which takes one’s current database and produces a new database.  It’s similar in spirit to the way that Perl implements modules by having each module define an `import` method.  That method can perform arbitrary computation to carry out the import.  Having a predicate that maps from one database to another is a natural extension of that idea.  On the plus side, Perl's enormous flexibility in this area has spawned a whole ecosystem of experimental module tools (`Exporter`, `Sub::Exporter`, `Moose`, etc).  So perhaps
 
     import foo [bar/1] random stuff
-    
+
 creates a database from `foo` (see above) named `Foo` then calls
 
     Foo:perform_import [[bar/1] random stuff] DB0 DB
@@ -81,13 +81,13 @@ Building on the `perform_import/3` idea, one might define a module like
 
     module something
     import exporter
-    
+
     exports foo/2
     exports bar/1
-    
+
     foo a b
     bar x
-    
+
 The `exporter` module creates a `perform_import/3` predicate in the database representing module `something`.  That predicate queries `export/1` to determine which predicates should be exported to those modules who import `something`.
 
 Under this architecture, modules can perform all kinds of useful work on behalf of their importers.  It also leaves it up to the exporting module to perform the exporting.  The exporting module certainly knows more about exporting its predicates that any generalized module system could.
