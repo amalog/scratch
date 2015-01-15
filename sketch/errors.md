@@ -54,7 +54,7 @@ Pulling out his trusty cell phone, he says, "I guess I'll call dad and see if he
 
 The son continues on his way through the forest, discovers a delicious patch of berries and calmly delivers some of the fruit to his father and grandfather who are still waiting patiently where he left them.
 
-# Debugger
+## Debugger
 
 SWI-Prolog allows the debugger to run backwards in time.  When one encounters a failure, one can retry and pretend the failure didn't happen.  [Elm reactor](http://elm-lang.org/blog/Introducing-Elm-Reactor.elm) takes this even further by giving you a little time slider.  You can pause and rewind the debugger.
 
