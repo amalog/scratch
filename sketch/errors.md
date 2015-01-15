@@ -61,3 +61,32 @@ SWI-Prolog allows the debugger to run backwards in time.  When one encounters a 
 I really want this kind of functionality in an Amalog debugger.  I use it frequently when debugging SWI-Prolog programs.  Make sure the language allows for this sort of tooling.
 
 I also want to have declarative debugging like Mercury has.  I haven't used that very much, but it seems like a specific application of a reversible debugger.  The reversing step is simply executed by a machine instead of with user interaction.
+
+## Errors as Values
+
+Both Go and Perl 6 have a notion of "errors as values".  When a function fails, it returns a value representing the error.
+
+### Go
+
+In [Go](http://blog.golang.org/errors-are-values), most functions return a tuple `x, err`, where `x` is what you care about and `err` is what went wrong.
+
+The lack of macros (or non-local return) means you're stuck reading and writing repetitive error handling code.  The linked blog post tries to cover it over with lipstick but Go's standard library shows that nearly every use of an `error` value is immediately followed by `if err != ...`.  On the positive side, having `error` allows for some convenient control flow on occasion.
+
+This is a classic example of an engineering tradeoff (despite Gophers pretending there's no cost, just benefit).
+
+### Perl 6
+
+In [Perl 6](http://doc.perl6.org/type/Failure), a function returns `x` (the value you care about).  If something goes wrong, the function calls `fail()` which causes `x` to have a value representing the error.  That value encapsulates a snapshot of the stack trace and details about what caused the error.
+
+If `x` is never used, it throws an exception when it goes out of scope.  If you use `x` in a boolean context or pass it to `defined()`, the error is marked as "handled" and won't ever throw an exception.  Using the value in any other way throws an exception.  In all cases, the exception shows the stack trace of the original `fail()` call.
+
+This has a nice set of tradeoffs.  It's impossible to ignore errors.  Your code can just assume that everything worked fine and if that assumption was wrong you quickly find out about it.  However, you can also handle the error locally or pass it up the call stack.  All the nice error control flow from Go is still possible without the boilerplate.
+
+
+### Amalog?
+
+How might this look in Amalog.  Perhaps calling `fail Oops Resume` signals a condition passing the value `Oops` to any existing handlers (stored in the trail?) who can bind `Resume`.  If nobody handles the signal, all variables in the clause head are marked as error variables (holds stack trace, `Oops` value, etc).  Unifying a void variable (`_`) with one of these variables causes the program to print the error's stack trace and exit.
+
+Calling certain predicates (`is_error`) unifies the variable with a ground term representing the error (effectively marking it as handled).  Doing anything else with one of these variables prints a stack trace and exits.
+
+These are just quick ideas.  I haven't thought about how useful they'd be for developers.
