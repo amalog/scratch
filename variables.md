@@ -40,6 +40,13 @@ I'd like to be able to create a variable with custom progress semantics.  It's n
 
 Make sure that all the above use cases can be implemented using Amalog's variables.
 
+## Void
+
+Prolog has the notion of anonymous variables (`_`).  Sometimes they're called "void".  They're just like normal variables but the developer doesn't have to think of a name.  Because they have no name, it's impossible to refer to them elsewhere in the code.  As far as the data flow is concerned, an anonymous variable is a dead end.  Any computations that lead solely to that value could be discarded by an optimizer.
+
+Of course, sometimes an anonymous variable is used to say, "There's a solution but I don't care what it is".  We still have to perform the search to verify that a solution exists.  In that case, backtracking over subsequent solutions is pointless.  I believe that Mercury trims choicepoints in this context.
+
+Having said all that, this is probably an area for optimizing compilers to worry about.  I don't see any reason why these optimizations should be part of the language itself.
 
 ## Scratch
 
