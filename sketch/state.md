@@ -21,6 +21,70 @@ Any Prolog variant should have something like Mercury's state variables to make 
 
 It's often convenient to implicitly thread state variables through a predicate. DCG notation is the best known example. [Aquarius Prolog](http://www.info.ucl.ac.be/~pvr/aquarius.html) has [Extended DCG Notation](http://www.info.ucl.ac.be/~pvr/Peter.thesis/Peter.thesis.html) which allows one to thread multiple state variables through a predicate. In some sense, all Prolog predicates implicitly thread a database through the goals. It's the database against which they seek goals. Mercury performs IO by threading a "state of the world" through predicates that perform IO. Haskell monads are often used to make State threading implicit. The high level observation is that programmers don't like to perform bookkeeping on this state. Perhaps there can be a way for a predicate to declare "I need access to the following state: database, DCG and IO". The compiler  implicitly adds arguments to the predicate for that state. Some predicates only need to read the state. Others need to create new state. Some need to do both. I don't quite know how this will look, but it seems like a problem worth addressing.
 
+
+# Implicit arguments
+
+The following observations lead me to think about implicit arguments when working with state:
+
+  * While reading *Pane, Ratanamahatana, Myers; "Studying the Language and Structure in Non-Programmers’ Solutions to Programming Problems"* I concluded that people prefer implicit arguments
+  * DCG notation in Prolog (based on two implicit arguments)
+  * Perl's `$_` variable (called "topic" or "it")
+  * [Conditions](http://blog.ndrix.com/2013/02/programming-for-failure.html) allow error handling to be implicit
+
+## Syntactic Benefits
+
+The most obvious benefit of implicit arguments is reducing syntactic stutter.  Compare this example:
+
+```perl
+if ( -x $filename ) {
+    say "executable";
+}
+elsif ( -f $filename ) {
+    say "file";
+}
+elsif ( -d $filename ) {
+    say "directory";
+}
+```
+
+with this one:
+
+```perl
+given ($filename) {
+    when(-x) { say "executable" }
+    when(-f) { say "file" }
+    when(-d) { say "directory" }
+}
+```
+
+The second snippet avoids repeating `$filename` over and over. (Incidentally, when I typed these examples, I misspelled the variable name and I only had to correct it in one place in the second example).
+
+In this example, the topic is strictly syntactic sugar.
+
+## Bookkeeping Benefits
+
+Implicit arguments can also save us the hassle of bookkeeping.  Compare this example:
+
+```prolog
+foo(A,Z) :-
+    bar(A,B),
+    baz(B,C),
+    bar(C,Z).
+```
+
+with this one:
+
+```prolog
+foo -->
+    bar,
+    baz,
+    bar.
+```
+
+The compiler takes care of naming all the intermediate variables and wiring them to each other correctly.  If I add a goal to the conjunction, the second example requires a single line change.  The first example requires a single line plus a bunch of variable renamings.
+
+In this example, the topic is strictly syntactic sugar.
+
 # Software Transactional Memory
 
 When handling state across threads of control (concurrent or parallel), software transactional memory is a convenient abstraction.  The [cleanest STM implementation](http://research.microsoft.com/pubs/67418/2005-ppopp-composable.pdf) that I know of keeps a record of all variables that are read and written during a transaction.  Those assumptions are checked during commit.  The trail seems like a natural place to record that kind of information.  Although, if a predicate reads a variable, then backtracks to another choicepoint, the first variable needs to remain in the "read set".  That variable's value did impact execution.  If it has changed outside the transaction, we must retry.
