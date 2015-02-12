@@ -168,7 +168,7 @@ When "modifying state" (their term), 61% treated the state as an attribute of th
 
 Most people use "and", "or" to mean boolean operations.  "then" is used for sequencing.
 
-When performing iteration, people typically (73%) only state the exit condition.In that sense, the looping is implicit.
+When performing iteration, people typically (73%) only state the exit condition. In that sense, the looping is implicit.
 
 For both "remembering state" and "tracking progress", variables are unpopular (only 11% and 14%, respectively).  People seem to track state implicitly.
 
@@ -185,7 +185,7 @@ which might be translated as
         hit_wall
         stop
 
-so each predicate demands an argument.  There is only one value in context, so that must be the argument intended.  It's only ambiguous if `move_forward/0` exists.  This also reminds me that programming languages almost always through out all information contained in variable names.  Why not use variable names to determine which predicates should receive that variable as an argument.  That probably requires someone to describe variable names or naming conventions.
+so each predicate demands an argument.  There is only one value in context, so that must be the argument intended.  It's only ambiguous if `move_forward/0` exists.  This also reminds me that programming languages almost always throw out all information contained in variable names.  Why not use variable names to determine which predicates should receive that variable as an argument.  That probably requires someone to describe variable names or naming conventions.
 
 People seem to use sets as a primitive data structure even though they don't know about data structures.  Few languages have convenient support for sets.
 
