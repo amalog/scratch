@@ -28,3 +28,9 @@ _, "ok" := foo()
 ```
 
 She should be able to write a library which converts what she wants into what the language requires internally.
+
+## TMTOWTDI
+
+The Perl language and community followed a principle that "there's more than one way to do it".  Within the language, that caused a syntactic fragmentation and complexity which partly lead to Perl's decline ("line noise" perception).  However, as a community virtue it fostered CPAN and lead to the language's success.
+
+Fundamentally, the culture's attitude was "try it, maybe that's a good thing to do. TMTOWTDI".  Most of those experiments failed but many good ones emerged and the language and its ecosystem got better as a result.
