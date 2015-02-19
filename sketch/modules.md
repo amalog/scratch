@@ -288,3 +288,14 @@ It's important that a compiler/interpreter be able to fetch all dependencies of 
 Privacy can be addressed through naming conventions.  Anyone can use clauses they find in the wild.  If the name suggests privacy (leading underscore?) the original author reserves the right to remove/modify/desecrate that clause at any point.
 
 How should clauses be referenced?  I don't really like URLs for this (even with shortened identifiers) because I still have to decide what the name is.  Perhaps some sort of content-addressable storage in which the clause's code dictates the name.  Then I can write a clause or two and toss them into the pile.  As with other content addressable storage, we need a way to point at a root node from which all other pieces can be found.  I just publish a name (which points to a content address) if I want people to conveniently use the thing I made.
+
+
+## Patching Locally
+
+Here is a use case that I run across regularly in my day job:
+
+Our code depends on a third-party library.  We find a mistake in that library and submit a patch.  We can't wait for the upstream maintainers to accept the patch and include it in a public release.  We perform various hacks (depending on the language) to make an exception for this one library so that our code is used instead of the upstream code.  Once upstream catches up, we remove the exception.
+
+A level of indirection is very helpful here.  For example, if my code refers to package Foo.Bar.Baz.Extra by the name "extra" then I can change where "extra" points without modifying any of my code.  As I understand it, this is how Dart's [pubspec files](https://www.dartlang.org/tools/pub/get-started.html) operate.
+
+Social groups have developed similar rules by refering to individuals by their title (chief, president, bishop, etc).  If society has a rule like "bring disputes to the chief for resolution", it doesn't matter who fulfills that role, the rule still works.
