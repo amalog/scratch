@@ -144,7 +144,7 @@ Having a single entry point (`main` predicate) also makes it easier to walk the 
 
 If possible, use a different naming convention for modules and the packages through which they're distributed.  Hackage is a good example.  The package `network-bitcoin` contains the module `Network.Bitcoin`  This makes it clear when I'm talking about the module and when the package.
 
-Contrast that with CPAN.  Packages and modules have an identical naming convention.  I just wrote a Makefile.PL in which I specificed a requirement on the module `URI::QueryParam` because I thought the file wanted module names.  It actually wanted package names (needing `URI` in this case), but similar formatting of the two confused me.
+Contrast that with CPAN.  Packages and modules have an identical naming convention.  I just wrote a Makefile.PL in which I specified a requirement on the module `URI::QueryParam` because I thought the file wanted module names.  It actually wanted package names (needing `URI` in this case), but similar formatting of the two confused me.
 
 ## Complete Isolation
 
