@@ -146,6 +146,8 @@ If possible, use a different naming convention for modules and the packages thro
 
 Contrast that with CPAN.  Packages and modules have an identical naming convention.  I just wrote a Makefile.PL in which I specified a requirement on the module `URI::QueryParam` because I thought the file wanted module names.  It actually wanted package names (needing `URI` in this case), but similar formatting of the two confused me.
 
+Naming things is one of the [two hard computer science problems](http://martinfowler.com/bliki/TwoHardThings.html).  This is especially true for modules.  Everyone wants to name his module "json" or "http" or "email".  In centralized repositories, the first person gets a good name and everyone else settles for something random or long.  Go and Node.js avoid the problem by separating local module names (which should be short) from universal module names (which are URLs, effectively).  That way, every developer can name his module "http" without colliding with other developers.  This convention also distinguishes between the module name (short word) and the package name (a URL), so problems like those described above don't come up.
+
 ## Complete Isolation
 
 Now for something completely different.  Above, I mention the value of having each module as a separate database.  However, nearly all the details I described are premised on importing or copying code from one database to another.  Once you do that, they're no longer separate.  What if imports couldn't happen at all?  What if one could only call a predicate in a second module by specifying the second module and the name of the predicate.
