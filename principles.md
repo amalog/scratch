@@ -20,4 +20,4 @@ Give runtime performance the lowest priority among all design factors.  Because 
 
 Don't halt a developer's forward progress for mistakes which can be resolved later.  Software development is a process of experimentation and discovery.  The flow of exploration should not be broken lightly.
 
-Following this principle naively incurs substantial technical debt, whose future payment also halts progress.  Tools must also make it easy for a developer to find and pay this debt when she's ready.
+Naively following this principle incurs substantial technical debt, whose future payment also halts progress.  Tools must also make it easy for a developer to find and pay this debt when she's ready.
