@@ -6,7 +6,7 @@ Base language design decisions on the results of objective, repeated experiments
 
 If a style convention doesn't matter (less than 10% difference in productivity between choices), adopt one arbitrarily and make the others illegal.  The amount of productivity lost through argument and mixed conventions far outweighs any benefits.
 
-Examples might include tabs vs spaces, indent size, identifier naming style, brace placement, if-else layout, etc.
+Examples might include tabs vs spaces, line endings, indent size, identifier naming style, brace placement, if-else layout, etc.
 
 # Principle of Legibility
 
