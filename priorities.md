@@ -1,9 +1,16 @@
-A prioritized list of major features that I want in Amalog:
+A prioritized list of major features that I want in Amalog.
+The top-level bullets are the priorities.  The internal
+bullets are examples.
 
 * logic programming
-* static analysis
-  * mode system
-  * type system
+* easy to create tools
+    * code formatting
+    * static analysis
+        * mode system
+        * type system
+    * code navigation
+    * refactoring
+    * syntax highlighting
 * partial evaluation
 * interfaces (or typeclasses)
 * macros
