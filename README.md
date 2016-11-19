@@ -6,7 +6,8 @@ A prioritized list of design goals for Amalog. Top-level bullets are priorities.
 
 * logic programming
 * easy to implement
-    * <5k lines of code (arbitrary)
+    * <5k lines of code
+    * <50 page specification
 * compiles to target language for deployment
     * at least: interpreter + embedded AST
     * ideally: idiomatic code
