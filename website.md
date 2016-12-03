@@ -16,8 +16,15 @@ A rough outline of content that should exist on the amalog.org website.
 * documentation
     * one page language cheat sheet
     * language specification
-    * standard library documentation
+    * module documentation
+        * standard library
+        * third-party
+        * clickable index to predicates defined in a module
+    * third-party module documentation
     * ability to search for predicates by name, arity, mode, etc.
+        * similar to Hoogle
+    * Stackoverflow tag
+        * pre-populated with likely, popular questions
 * language specification
     * table of contents
     * EBNF for syntax
