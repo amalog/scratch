@@ -187,3 +187,9 @@ If Amalog ends up using universally unique identifiers for predicates, the publi
 If two predicates want to share a lemma, that lemma must be placed in its own file.  It doesn't have to be announced for public consumption but it can no longer live in the original file as a lemma.
 
 Most text editors have excellent support for rapidly locating and switching between files.  That support is typically better than is support for locating and switching between positions in a single file.  This should make it easier to quickly navigate to a predicate definition without secondary tools (like ctags, etc).
+
+# Standard Library
+
+The standard library should include fundamental algorithms that are widely used, with an emphasis on ones that are difficult to get right.  For example, encryption, compression and random numbers all belong in the standard library.  Basic statistical functions probably belong here too.  Calculating mean, standard deviation, Welch's t test, etc are sometimes quite subtle but they're widely helpful.
+
+The standard library should not be distributed as part of the language itself.  Rather, a copy of it should be saved locally in each project.  This allows the standard library to evolve independent of the compiler and interpreter.  Someone stuck on an older compiler can still upgrade to a standard library module with recent bug fixes.  Another approach is to distribute a snapshot of the standard library along with the language but allow users to upgrade the standard library for each project, if they want newer code than comes with their compiler or interpreter.
